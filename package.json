@@ -4,6 +4,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
+    "ios:build:staging": "expo build:ios --release-channel staging",
+    "ios:build:production": "expo build:ios --release-channel production",
     "web": "expo start --web",
     "eject": "expo eject"
   },
@@ -12,11 +14,12 @@
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
+    "react-native-svg": "9.13.3",
     "react-native-web": "~0.11.7"
   },
   "devDependencies": {
-    "babel-preset-expo": "~8.0.0",
-    "@babel/core": "^7.0.0"
+    "@babel/core": "^7.0.0",
+    "babel-preset-expo": "~8.0.0"
   },
   "private": true
 }
