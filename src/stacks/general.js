@@ -3,25 +3,25 @@ import { Button } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { options } from '../helpers/screen';
 import Language from '../screens/Language'
-import Word from '../screens/Word'
+import Word from '../screens/LanguageDetails'
 
 const Stack = createStackNavigator();
 
-const MainStack = () => (
-  <Stack.Navigator initialRouteName="Language">
+const Main = () => (
+  <Stack.Navigator>
     <Stack.Screen
-      name="Language"
+      name="Languages"
       component={Language}
       options={{
-        title: 'Language',
+        title: 'Languages',
         ...options
       }}
     />
     <Stack.Screen
-      name="Word"
+      name="LanguageDetails"
       component={Word}
       options={({ navigation }) => ({
-        title: 'Word',
+        title: 'Details',
         ...options,
         headerLeft: () => (
           <Button
@@ -35,4 +35,4 @@ const MainStack = () => (
   </Stack.Navigator>
 );
 
-export default MainStack;
+export default Main;

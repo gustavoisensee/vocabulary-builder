@@ -1,16 +1,37 @@
 import React from 'react';
+import { Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import StackDashboard from './src/stacks/dashboard';
-import StackMenu from './src/stacks/menu';
+import generalStack from './src/stacks/general';
+import menuStack from './src/stacks/menu';
+import { BUTTON } from './src/consts/colors';
 
 const Tab = createBottomTabNavigator();
 
 const App = () => (
   <NavigationContainer>
-    <Tab.Navigator>
-      <Tab.Screen name="Dashboard" component={StackDashboard} options={{ showIcon: false }} />
-      <Tab.Screen name='Menu' component={StackMenu} options={{ showIcon: false }} />
+    <Tab.Navigator tabBarOptions={{
+      backgroundColor: 'black',
+      activeTintColor: BUTTON.secondary
+    }}>
+      <Tab.Screen name="Main" component={generalStack} options={{
+        tabBarIcon: () => (
+          <Image
+            source={require('./assets/home.png')}
+            fadeDuration={0}
+            style={{ width: 28, height: 28 }}
+          />
+        )
+      }} />
+      <Tab.Screen name='Menu' component={menuStack} options={{ 
+        tabBarIcon: () => (
+          <Image
+            source={require('./assets/menu.png')}
+            fadeDuration={0}
+            style={{ width: 28, height: 28 }}
+          />
+        )
+       }} />
     </Tab.Navigator>
   </NavigationContainer>
 );
