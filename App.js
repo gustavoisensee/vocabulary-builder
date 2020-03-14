@@ -19,7 +19,7 @@ const App = () => (
           <Image
             source={require('./assets/home.png')}
             fadeDuration={0}
-            style={{ width: 20, height: 20 }}
+            style={{ width: 28, height: 28 }}
           />
         )
       }} />
@@ -28,7 +28,7 @@ const App = () => (
           <Image
             source={require('./assets/menu.png')}
             fadeDuration={0}
-            style={{ width: 20, height: 20 }}
+            style={{ width: 28, height: 28 }}
           />
         )
        }} />
