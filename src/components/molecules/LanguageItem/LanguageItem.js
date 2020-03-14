@@ -2,10 +2,10 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const LanguageItem = ({ title }) => {
+const LanguageItem = ({ id, title }) => {
   const navigation = useNavigation();
   const handleRedirect = () => {
-    navigation.navigate('LanguageDetails', { item: { title } });
+    navigation.navigate('LanguageDetails', { item: { id, title } });
   }
 
   return (
