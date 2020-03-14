@@ -2,10 +2,10 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const LanguageItem = ({ id, title }) => {
+const LanguageItem = (props) => {
   const navigation = useNavigation();
   const handleRedirect = () => {
-    navigation.navigate('LanguageDetails', { item: { id, title } });
+    navigation.navigate('LanguageDetails', { item: { ...props } });
   }
 
   return (
@@ -22,7 +22,7 @@ const LanguageItem = ({ id, title }) => {
       minHeight: 60
     }}>
       <TouchableOpacity onPress={handleRedirect}>
-        <Text>{title}</Text>
+        <Text>{props.title}</Text>
       </TouchableOpacity>
     </View>
   );

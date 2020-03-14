@@ -18,7 +18,7 @@ const LanguageCreate = ({ closeModal }) => {
         return Alert.alert('This language already exist!');
       }
 
-      convertedList.push({ id: shortid.generate(), title });
+      convertedList.push({ id: shortid.generate(), title, words: [] });
 
       await storeData('languages', convertedList);
 
