@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ColorPropType } from 'react-native';
+import { View } from 'react-native';
 import Text from '../../components/atoms/Text';
 import Button from '../../components/atoms/Button';
 import { getData, storeData } from '../../helpers/asyncStorage';
