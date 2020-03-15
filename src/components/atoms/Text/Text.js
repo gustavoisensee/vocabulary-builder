@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
+import { COLORS } from '../../../consts/colors';
 
 const CustomText = ({ bold, children, paddingBottom, style, ...rest }) => {
   const isBold = bold ? { fontWeight: '700' } : {};
@@ -9,7 +10,7 @@ const CustomText = ({ bold, children, paddingBottom, style, ...rest }) => {
       style={[
         {
           minHeight: 16,
-          color: '#363537'
+          color: COLORS.black
         },
         isBold,
         hasPadding,

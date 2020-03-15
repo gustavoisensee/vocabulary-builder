@@ -5,6 +5,7 @@ import Input from '../../atoms/Input';
 import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
 import { storeData, getData } from '../../../helpers/asyncStorage';
+import { updateLanguages } from '../../../helpers/observers';
 
 const WordCreate = ({ item, setWords, closeModal, word = {} }) => {
   const [title, onChangeTitle] = useState(word.title || '');
@@ -48,6 +49,7 @@ const WordCreate = ({ item, setWords, closeModal, word = {} }) => {
       if (valid) {
         await storeData('languages', list);
   
+        updateLanguages();
         closeModal(false);
       }
   

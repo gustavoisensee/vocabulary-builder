@@ -8,9 +8,10 @@ import Modal from '../../components/molecules/Modal';
 import WordCreate from '../../components/organisms/WordCreate';
 import { getData, storeData } from '../../helpers/asyncStorage';
 import { updateLanguages } from '../../helpers/observers';
-import { BUTTON } from '../../consts/colors';
+import { COLORS } from '../../consts/colors';
 import WordItem from '../../components/molecules/WordItem';
 import Wrapper from '../../components/atoms/Wrapper';
+import Empty from '../../components/atoms/Empty/Empty';
 
 const LanguageDetails = ({ navigation, route }) => {
   const [search, setSearch] = useState();
@@ -96,7 +97,7 @@ const LanguageDetails = ({ navigation, route }) => {
         <Text paddingBottom>{item.title}</Text>
 
         <Text bold style={{ paddingBottom: 4 }}>Number of words</Text>
-        <Text paddingBottom={false}>{item.words ? item.words.length : 0}</Text>
+        <Text paddingBottom={false}>{words ? words.length : 0}</Text>
 
         <Input
           value={search} onChange={handleSearch}
@@ -104,54 +105,58 @@ const LanguageDetails = ({ navigation, route }) => {
         />
       </Wrapper>
     
-      <View style={{ flex: 1, marginLeft: 16, marginTop: 0 }}>
-        <SwipeListView
-          data={words}
-          renderItem={(data) => (
-            <WordItem {...data.item} />
-          )}
-          renderHiddenItem={(data) => {
-            return (
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: 'flex-start', 
-                  flexDirection: 'row',
-                  paddingLeft: 2
-                }}
-              >
-                <Button onPress={() => handleDeleteWord(data.item)} style={{
-                  backgroundColor: BUTTON.secondary,
-                  padding: 11,
-                  marginRight: 4
-                }}>
-                  <Image
-                    source={require('../../../assets/delete.png')}
-                    fadeDuration={0}
-                    style={{ width: 20, height: 20 }}
-                  />
-                </Button>
-                <Button onPress={() => handleEditWord(data.item)} style={{
-                  backgroundColor: BUTTON.tertiary,
-                  padding: 11
-                }}>
-                  <Image
-                    source={require('../../../assets/edit.png')}
-                    fadeDuration={0}
-                    style={{ width: 20, height: 20 }}
-                  />
-                </Button>
-              </View>
-            )
-          }}
-          style={{ paddingRight: 16, paddingBottom: 16 }}
-          leftOpenValue={100}
-        />
-      </View>
+      {words.length ? (
+        <View style={{ flex: 1, marginLeft: 16, marginTop: 0 }}>
+          <SwipeListView
+            data={words}
+            renderItem={(data) => (
+              <WordItem {...data.item} />
+            )}
+            renderHiddenItem={(data) => {
+              return (
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start', 
+                    flexDirection: 'row',
+                    paddingLeft: 2
+                  }}
+                >
+                  <Button onPress={() => handleDeleteWord(data.item)} style={{
+                    backgroundColor: COLORS.secondary,
+                    padding: 11,
+                    marginRight: 4
+                  }}>
+                    <Image
+                      source={require('../../../assets/delete.png')}
+                      fadeDuration={0}
+                      style={{ width: 20, height: 20 }}
+                    />
+                  </Button>
+                  <Button onPress={() => handleEditWord(data.item)} style={{
+                    backgroundColor: COLORS.tertiary,
+                    padding: 11
+                  }}>
+                    <Image
+                      source={require('../../../assets/edit.png')}
+                      fadeDuration={0}
+                      style={{ width: 20, height: 20 }}
+                    />
+                  </Button>
+                </View>
+              )
+            }}
+            style={{ paddingRight: 16, paddingBottom: 16 }}
+            leftOpenValue={100}
+          />
+        </View>  
+      ) : (
+        <Empty title='You have no words added so far.' />
+      )}
     
       <Wrapper style={{ flexDirection: 'row' }}>
         <Button onPress={handleRemoveConfirmation} style={{
-          backgroundColor: BUTTON.secondary,
+          backgroundColor: COLORS.secondary,
           marginBottom: 0,
           marginTop: 0,
           flex: 1,

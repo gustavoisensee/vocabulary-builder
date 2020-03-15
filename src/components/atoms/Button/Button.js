@@ -1,10 +1,10 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { BUTTON } from '../../../consts/colors';
+import { COLORS } from '../../../consts/colors';
 
 const Button = ({ children, onPress, style }) => (
   <TouchableOpacity onPress={onPress} style={{
-    backgroundColor: BUTTON.primary,
+    backgroundColor: COLORS.primary,
     padding: 16,
     borderRadius: 25,
     alignItems: 'center',

@@ -8,6 +8,7 @@ import Button from '../../components/atoms/Button';
 import Input from '../../components/atoms/Input';
 import { getData, removeData } from '../../helpers/asyncStorage';
 import { languagesSubject } from '../../helpers/observers';
+import Empty from '../../components/atoms/Empty/Empty';
 
 const Language = () => {
   const [search, setSearch] = useState('');
@@ -26,10 +27,9 @@ const Language = () => {
 
   const handleSearch = async(value) => {
     const reg = RegExp(value.toLowerCase());
-    const list = await getData('languages');
-    const filteredList = value ? list
+    const filteredList = value && languages ? languages
       .filter(l => reg.test(l.title.toLowerCase()))
-      : list;
+      : languages;
     
     setSearch(value);
     setLanguages(filteredList);
@@ -57,11 +57,15 @@ const Language = () => {
         placeholder='Search' style={{ marginBottom: 0, marginTop: 0 }}
       />
 
-      <ScrollView alwaysBounceHorizontal={false} style={{ marginRight: -8, paddingRight: 8 }}>
-        {languages.map((l, i) => (
-          <LanguageItem key={i} {...l} />
-        ))}
-      </ScrollView>
+      {languages.length ? (
+        <ScrollView alwaysBounceHorizontal={false} style={{ marginRight: -8, paddingRight: 8 }}>
+          {languages.map((l, i) => (
+            <LanguageItem key={i} {...l} />
+          ))}
+        </ScrollView>
+      ) : (
+        <Empty title='You have no languages added so far.' />
+      )}
 
       <Button onPress={() => setShowModal(!showModal)} style={{ marginBottom: 0 }}>
         <Text bold>Add language</Text>

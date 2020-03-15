@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import generalStack from './src/stacks/general';
 import menuStack from './src/stacks/menu';
-import { BUTTON } from './src/consts/colors';
+import { COLORS } from './src/consts/colors';
 
 const Tab = createBottomTabNavigator();
 
@@ -12,7 +12,7 @@ const App = () => (
   <NavigationContainer>
     <Tab.Navigator tabBarOptions={{
       backgroundColor: 'black',
-      activeTintColor: BUTTON.secondary
+      activeTintColor: COLORS.secondary
     }}>
       <Tab.Screen name="Main" component={generalStack} options={{
         tabBarIcon: () => (
