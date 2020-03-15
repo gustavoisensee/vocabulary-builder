@@ -24,6 +24,16 @@ const LanguageDetails = ({ navigation, route }) => {
       console.warn(err)
     }
   }
+  const handleRemoveConfirmation = () => {
+    Alert.alert(
+      'Delete language',
+      'Are your sure you want to delete this language?',
+      [
+        { text: 'No' },
+        { text: 'Yes', onPress: handleRemove },
+      ]
+    )
+  }
 
   const [title, onChangeTitle] = useState();
   const handleAddWord = async() => {
@@ -81,7 +91,7 @@ const LanguageDetails = ({ navigation, route }) => {
         ))}
       </ScrollView>
 
-      <Button onPress={handleRemove} style={{ backgroundColor: BUTTON.secondary }}>
+      <Button onPress={handleRemoveConfirmation} style={{ backgroundColor: BUTTON.secondary }}>
         <Text bold style={{ color: 'white' }}>Delete language</Text>
       </Button>
     </View>
