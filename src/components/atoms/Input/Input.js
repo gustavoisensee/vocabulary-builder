@@ -1,5 +1,6 @@
 import React from 'react';
 import { TextInput } from 'react-native';
+import { COLORS } from '../../../consts/colors';
 
 const Input = ({ error, value, style, onChange, ...rest }) => {
   const errorStyle = error ? {
@@ -16,6 +17,7 @@ const Input = ({ error, value, style, onChange, ...rest }) => {
         paddingVertical: 16,
         paddingHorizontal: 8,
         marginVertical: 16,
+        color: COLORS.black,
         ...errorStyle,
         ...style
       }}

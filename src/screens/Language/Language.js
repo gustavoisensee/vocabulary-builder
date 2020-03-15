@@ -11,6 +11,7 @@ import { languagesSubject } from '../../helpers/observers';
 import Empty from '../../components/atoms/Empty/Empty';
 
 const Language = () => {
+  let storedLanguage = [];
   const [search, setSearch] = useState('');
   const [languages, setLanguages] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -19,7 +20,10 @@ const Language = () => {
     try {
       const list = await getData('languages');
 
-      if (list) setLanguages(list);
+      if (list) {
+        setLanguages(list);
+        storedLanguage = [...list];
+      }
     } catch (err) {
       Alert.alert('Erro to fetch languages');
     }
@@ -27,9 +31,9 @@ const Language = () => {
 
   const handleSearch = async(value) => {
     const reg = RegExp(value.toLowerCase());
-    const filteredList = value && languages ? languages
+    const filteredList = value && storedLanguage ? storedLanguage
       .filter(l => reg.test(l.title.toLowerCase()))
-      : languages;
+      : storedLanguage;
     
     setSearch(value);
     setLanguages(filteredList);
