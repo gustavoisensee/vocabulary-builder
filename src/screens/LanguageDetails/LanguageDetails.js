@@ -35,14 +35,18 @@ const LanguageDetails = ({ navigation, route }) => {
     )
   }
 
-  const [title, onChangeTitle] = useState();
+  const [title, onChangeTitle] = useState('');
+  const [titleError, setTitleError] = useState(false);
   const handleAddWord = async() => {
     try {
+      if (!title.replace(/ /g, '')) {
+        setTitleError(true);
+        return;
+      }
       const list = await getData('languages');
       
       list.some(c => {
         if (c.id === item.id) {
-          
           if (c.words.some(w => w.title.toLowerCase() === title.toLowerCase())) {
             Alert.alert('This word already exist!');
             return;
@@ -52,13 +56,14 @@ const LanguageDetails = ({ navigation, route }) => {
             { id: shortid.generate(), title },
             ...c.words
           ];
-          const sortedWords = words.sort((a,b) => a.title.localeCompare(b.title));
+          const sortedWords = words.sort((a, b) => a.title.localeCompare(b.title));
 
           c.words = sortedWords
           setItem({ ...item, words: sortedWords });
-        }
+          if (titleError) setTitleError(false)
 
-        return;
+          return;
+        }
       })
 
       await storeData('languages', list);
@@ -79,7 +84,13 @@ const LanguageDetails = ({ navigation, route }) => {
 
       <Text bold>Add your new word here</Text>
       <View style={{ flexDirection: 'row' }}>
-        <Input value={title} onChange={onChangeTitle} placeholder='Word' style={{ flex: 1, marginRight: 8 }} />
+        <Input
+          error={!title && titleError}
+          value={title}
+          onChange={onChangeTitle}
+          placeholder='Word'
+          style={{ flex: 1, marginRight: 8 }}
+        />
         <Button onPress={handleAddWord}>
           <Text bold> + </Text>
         </Button>

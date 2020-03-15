@@ -8,9 +8,14 @@ import Button from '../../components/atoms/Button';
 import { updateLanguages } from '../../helpers/observers';
 
 const LanguageCreate = ({ closeModal }) => {
-  const [title, onChangeTitle] = useState();
+  const [title, onChangeTitle] = useState('');
+  const [titleError, setTitleError] = useState(false);
   const saveLanguage = async() => {
     try {
+      if (!title.replace(/ /g, '')) {
+        setTitleError(true);
+        return;
+      }
       const list = await getData('languages');
       const convertedList = list || [];
 
@@ -34,7 +39,12 @@ const LanguageCreate = ({ closeModal }) => {
   return (
     <View>
       <Text bold>Title</Text>
-      <Input value={title} onChange={onChangeTitle} />
+      <Input
+        error={!title && titleError}
+        value={title}
+        onChange={onChangeTitle}
+        placeholder='Language'
+      />
 
       <Button onPress={saveLanguage}>
         <Text bold>Save</Text>
