@@ -1,6 +1,7 @@
 import shortid from 'shortid';
 import React, { useState } from 'react';
 import { Alert, View, ScrollView } from 'react-native';
+import { SwipeListView } from 'react-native-swipe-list-view';
 import Text from '../../components/atoms/Text';
 import Button from '../../components/atoms/Button';
 import Input from '../../components/atoms/Input';
@@ -8,6 +9,7 @@ import { getData, storeData } from '../../helpers/asyncStorage';
 import { updateLanguages } from '../../helpers/observers';
 import { BUTTON } from '../../consts/colors';
 import WordItem from '../../components/molecules/WordItem';
+import Wrapper from '../../components/atoms/Wrapper';
 
 const LanguageDetails = ({ navigation, route }) => {
   const [item, setItem] = useState(route.params.item);
@@ -77,34 +79,88 @@ const LanguageDetails = ({ navigation, route }) => {
     }
   };
 
+  const handleDeleteWord = async(word) => {
+    try {
+      const list = await getData('languages');
+      
+      list.some(c => {
+        if (c.id === item.id) {
+          const filteredWords = c.words.filter(w => w.id !== word.id);
+
+          c.words = filteredWords
+          setItem({ ...item, words: filteredWords });
+
+          return;
+        }
+      })
+
+      await storeData('languages', list);
+      updateLanguages();
+
+    } catch (err) {
+      console.warn(err)
+      Alert.alert('Error');
+    }
+  };
+
   return (
-    <View style={{ flex: 1, padding: 16 }}>
-      <Text bold>Language</Text>
-      <Text paddingBottom>{item.title}</Text>
+    <View style={{ flex: 1 }}>
+      <Wrapper>
+        <Text bold>Language</Text>
+        <Text paddingBottom>{item.title}</Text>
 
-      <Text bold>Add your new word here</Text>
-      <View style={{ flexDirection: 'row' }}>
-        <Input
-          error={!title && titleError}
-          value={title}
-          onChange={onChangeTitle}
-          placeholder='Word'
-          style={{ flex: 1, marginRight: 8 }}
+        <Text bold>Add your new word here</Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Input
+            error={!title && titleError}
+            value={title}
+            onChange={onChangeTitle}
+            placeholder='Word'
+            style={{ flex: 1, marginRight: 8 }}
+          />
+          <Button onPress={handleAddWord}>
+            <Text bold> + </Text>
+          </Button>
+        </View>
+      </Wrapper>
+    
+      <View style={{ flex: 1, marginLeft: 16 }}>
+        <SwipeListView
+          data={item.words}
+          renderItem={(data) => (
+            <WordItem {...data.item} />
+          )}
+          renderHiddenItem={(data) => {
+            return (
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: 'flex-start', 
+                  justifyContent: 'center',
+                  paddingLeft: 2
+                }}
+              >
+                <Button onPress={() => handleDeleteWord(data.item)} style={{
+                  backgroundColor: BUTTON.secondary
+                }}>
+                  <Text bold style={{ color: 'white' }}> - </Text>
+                </Button>
+              </View>
+            )
+          }}
+          style={{ paddingRight: 16, paddingBottom: 16 }}
+          leftOpenValue={60}
         />
-        <Button onPress={handleAddWord}>
-          <Text bold> + </Text>
-        </Button>
       </View>
-
-      <ScrollView alwaysBounceHorizontal={false} style={{ marginRight: -8, paddingRight: 8 }}>
-        {item.words && item.words.map((word, i) => (
-          <WordItem key={i} {...word} />
-        ))}
-      </ScrollView>
-
-      <Button onPress={handleRemoveConfirmation} style={{ backgroundColor: BUTTON.secondary }}>
-        <Text bold style={{ color: 'white' }}>Delete language</Text>
-      </Button>
+    
+      <Wrapper>
+        <Button onPress={handleRemoveConfirmation} style={{
+          backgroundColor: BUTTON.secondary,
+          marginBottom: 0
+        }}>
+          <Text bold style={{ color: 'white' }}>Delete language</Text>
+        </Button>
+      </Wrapper>
     </View>
   );
 };

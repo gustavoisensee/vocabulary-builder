@@ -14,7 +14,7 @@ const WordItem = (props) => {
       borderRadius: 3,
       shadowColor: '#000',
       shadowOffset: { width: 2, height: 4 },
-      shadowOpacity: 0.3,
+      shadowOpacity: 0.3
     }}>
       <Text paddingBottom={false}>{props.title}</Text>
     </View>
