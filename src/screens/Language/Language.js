@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StatusBar, ScrollView } from 'react-native';
-import LanguageCreate from '../../screens/LanguageCreate';
+import LanguageCreate from '../../components/organisms/LanguageCreate';
 import Text from '../../components/atoms/Text';
 import Modal from '../../components/molecules/Modal';
 import LanguageItem from '../../components/molecules/LanguageItem';
@@ -74,6 +74,6 @@ const Language = () => {
       </Modal>
     </View>
   );
-  };
+};
 
 export default Language;

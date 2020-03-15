@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Text from '../../atoms/Text';
 
 const LanguageItem = (props) => {
   const navigation = useNavigation();
@@ -19,10 +20,16 @@ const LanguageItem = (props) => {
       shadowColor: '#000',
       shadowOffset: { width: 2, height: 4 },
       shadowOpacity: 0.3,
-      minHeight: 60
+      minHeight: 60,
     }}>
-      <TouchableOpacity onPress={handleRedirect}>
+      <TouchableOpacity onPress={handleRedirect} style={{
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+      }}>
         <Text>{props.title}</Text>
+        <Text bold>{props.words.length}</Text>
       </TouchableOpacity>
     </View>
   );

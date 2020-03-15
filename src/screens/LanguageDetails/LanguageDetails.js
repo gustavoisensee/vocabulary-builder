@@ -5,6 +5,8 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import Text from '../../components/atoms/Text';
 import Button from '../../components/atoms/Button';
 import Input from '../../components/atoms/Input';
+import Modal from '../../components/molecules/Modal';
+import WordCreate from '../../components/organisms/WordCreate';
 import { getData, storeData } from '../../helpers/asyncStorage';
 import { updateLanguages } from '../../helpers/observers';
 import { BUTTON } from '../../consts/colors';
@@ -12,6 +14,7 @@ import WordItem from '../../components/molecules/WordItem';
 import Wrapper from '../../components/atoms/Wrapper';
 
 const LanguageDetails = ({ navigation, route }) => {
+  const [showModal, setShowModal] = useState(false);
   const [item, setItem] = useState(route.params.item);
   const handleRemove = async() => {
     try {
@@ -109,19 +112,12 @@ const LanguageDetails = ({ navigation, route }) => {
         <Text bold>Language</Text>
         <Text paddingBottom>{item.title}</Text>
 
-        <Text bold>Add your new word here</Text>
-        <View style={{ flexDirection: 'row' }}>
-          <Input
-            error={!title && titleError}
-            value={title}
-            onChange={onChangeTitle}
-            placeholder='Word'
-            style={{ flex: 1, marginRight: 8 }}
-          />
-          <Button onPress={handleAddWord}>
-            <Text bold> + </Text>
-          </Button>
-        </View>
+        <Text bold>Number of words</Text>
+        <Text paddingBottom>{item.words ? item.words.length : 0}</Text>
+
+        <Button onPress={() => setShowModal(true)} style={{ marginVertical: 0 }}>
+          <Text bold> Add new word </Text>
+        </Button>
       </Wrapper>
     
       <View style={{ flex: 1, marginLeft: 16 }}>
@@ -161,6 +157,10 @@ const LanguageDetails = ({ navigation, route }) => {
           <Text bold style={{ color: 'white' }}>Delete language</Text>
         </Button>
       </Wrapper>
+
+      <Modal show={showModal} closeModal={setShowModal}>
+        <WordCreate item={item} setItem={setItem} closeModal={setShowModal} />
+      </Modal>
     </View>
   );
 };

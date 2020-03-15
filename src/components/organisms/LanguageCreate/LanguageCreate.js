@@ -1,11 +1,11 @@
 import shortid from 'shortid';
 import React, { useState } from 'react';
 import { Alert, View, TouchableHighlight } from 'react-native';
-import Input from '../../components/atoms/Input';
-import Text from '../../components/atoms/Text';
-import { storeData, getData } from '../../helpers/asyncStorage';
-import Button from '../../components/atoms/Button';
-import { updateLanguages } from '../../helpers/observers';
+import Input from '../../atoms/Input';
+import Text from '../../atoms/Text';
+import Button from '../../atoms/Button';
+import { storeData, getData } from '../../../helpers/asyncStorage';
+import { updateLanguages } from '../../../helpers/observers';
 
 const LanguageCreate = ({ closeModal }) => {
   const [title, onChangeTitle] = useState('');
