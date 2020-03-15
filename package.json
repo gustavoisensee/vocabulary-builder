@@ -7,7 +7,8 @@
     "ios:build:staging": "expo build:ios --release-channel staging",
     "ios:build:production": "expo build:ios --release-channel production",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "publish": "expo publish"
   },
   "dependencies": {
     "@react-native-community/masked-view": "0.1.5",
