@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { View } from 'react-native';
 import Text from '../../atoms/Text';
 
@@ -16,7 +16,11 @@ const WordItem = (props) => {
       shadowOffset: { width: 2, height: 4 },
       shadowOpacity: 0.3
     }}>
-      <Text paddingBottom={false}>{props.title}</Text>
+      <Fragment>
+        <Text paddingBottom={false}>
+          {`${props.title}${props.translation ? ` / ${props.translation}` : ''}`}
+        </Text>
+      </Fragment>
     </View>
   );
 };

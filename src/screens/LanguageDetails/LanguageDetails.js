@@ -1,6 +1,6 @@
 import shortid from 'shortid';
 import React, { useState } from 'react';
-import { Alert, View, ScrollView } from 'react-native';
+import { Alert, View, Image } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import Text from '../../components/atoms/Text';
 import Button from '../../components/atoms/Button';
@@ -14,6 +14,7 @@ import WordItem from '../../components/molecules/WordItem';
 import Wrapper from '../../components/atoms/Wrapper';
 
 const LanguageDetails = ({ navigation, route }) => {
+  const [word, setWord] = useState();
   const [showModal, setShowModal] = useState(false);
   const [item, setItem] = useState(route.params.item);
   const handleRemove = async() => {
@@ -40,46 +41,9 @@ const LanguageDetails = ({ navigation, route }) => {
     )
   }
 
-  const [title, onChangeTitle] = useState('');
-  const [titleError, setTitleError] = useState(false);
-  const handleAddWord = async() => {
-    try {
-      if (!title.replace(/ /g, '')) {
-        setTitleError(true);
-        return;
-      }
-      const list = await getData('languages');
-      
-      list.some(c => {
-        if (c.id === item.id) {
-          if (c.words.some(w => w.title.toLowerCase() === title.toLowerCase())) {
-            Alert.alert('This word already exist!');
-            return;
-          }
-
-          const words = [
-            { id: shortid.generate(), title },
-            ...c.words
-          ];
-          const sortedWords = words.sort((a, b) => a.title.localeCompare(b.title));
-
-          c.words = sortedWords
-          setItem({ ...item, words: sortedWords });
-          if (titleError) setTitleError(false)
-
-          return;
-        }
-      })
-
-      await storeData('languages', list);
-
-      onChangeTitle('');
-      updateLanguages();
-
-    } catch (err) {
-      console.warn(err)
-      Alert.alert('Error');
-    }
+  const handleEditWord = (word) => {
+    setWord(word);
+    setShowModal(true);
   };
 
   const handleDeleteWord = async(word) => {
@@ -132,20 +96,36 @@ const LanguageDetails = ({ navigation, route }) => {
                 style={{
                   flex: 1,
                   alignItems: 'flex-start', 
-                  justifyContent: 'center',
+                  flexDirection: 'row',
                   paddingLeft: 2
                 }}
               >
                 <Button onPress={() => handleDeleteWord(data.item)} style={{
-                  backgroundColor: BUTTON.secondary
+                  backgroundColor: BUTTON.secondary,
+                  padding: 11,
+                  marginRight: 4
                 }}>
-                  <Text bold style={{ color: 'white' }}> - </Text>
+                  <Image
+                    source={require('../../../assets/delete.png')}
+                    fadeDuration={0}
+                    style={{ width: 20, height: 20 }}
+                  />
+                </Button>
+                <Button onPress={() => handleEditWord(data.item)} style={{
+                  backgroundColor: BUTTON.tertiary,
+                  padding: 11
+                }}>
+                  <Image
+                    source={require('../../../assets/edit.png')}
+                    fadeDuration={0}
+                    style={{ width: 20, height: 20 }}
+                  />
                 </Button>
               </View>
             )
           }}
           style={{ paddingRight: 16, paddingBottom: 16 }}
-          leftOpenValue={60}
+          leftOpenValue={100}
         />
       </View>
     
@@ -159,7 +139,12 @@ const LanguageDetails = ({ navigation, route }) => {
       </Wrapper>
 
       <Modal show={showModal} closeModal={setShowModal}>
-        <WordCreate item={item} setItem={setItem} closeModal={setShowModal} />
+        <WordCreate
+          item={item}
+          setItem={setItem}
+          closeModal={setShowModal}
+          word={word}
+        />
       </Modal>
     </View>
   );
