@@ -7,6 +7,7 @@ import Input from '../../components/atoms/Input';
 import { getData, storeData } from '../../helpers/asyncStorage';
 import { updateLanguages } from '../../helpers/observers';
 import { BUTTON } from '../../consts/colors';
+import WordItem from '../../components/molecules/WordItem';
 
 const LanguageDetails = ({ navigation, route }) => {
   const [item, setItem] = useState(route.params.item);
@@ -29,13 +30,25 @@ const LanguageDetails = ({ navigation, route }) => {
     try {
       const list = await getData('languages');
       
-      list.forEach(c => {
+      list.some(c => {
         if (c.id === item.id) {
-          const word = { id: shortid.generate(), title }
-          c.words.push(word);
-          // TODO recheck/improve this logic
-          setItem({ ...item, words: [word, ...item.words] });
+          
+          if (c.words.some(w => w.title.toLowerCase() === title.toLowerCase())) {
+            Alert.alert('This word already exist!');
+            return;
+          }
+
+          const words = [
+            { id: shortid.generate(), title },
+            ...c.words
+          ];
+          const sortedWords = words.sort((a,b) => a.title.localeCompare(b.title));
+
+          c.words = sortedWords
+          setItem({ ...item, words: sortedWords });
         }
+
+        return;
       })
 
       await storeData('languages', list);
@@ -54,15 +67,17 @@ const LanguageDetails = ({ navigation, route }) => {
       <Text bold>Language</Text>
       <Text paddingBottom>{item.title}</Text>
 
-      <Text bold>Word</Text>
-      <Input value={title} onChange={onChangeTitle} Word />
-      <Button onPress={handleAddWord}>
-        <Text bold>Add word</Text>
-      </Button>
+      <Text bold>Add your new word here</Text>
+      <View style={{ flexDirection: 'row' }}>
+        <Input value={title} onChange={onChangeTitle} placeholder='Word' style={{ flex: 1, marginRight: 8 }} />
+        <Button onPress={handleAddWord}>
+          <Text bold> + </Text>
+        </Button>
+      </View>
 
-      <ScrollView>
-        {item.words.map((l, i) => (
-          <Text key={i}>{l.title}</Text>
+      <ScrollView alwaysBounceHorizontal={false} style={{ marginRight: -8, paddingRight: 8 }}>
+        {item.words && item.words.map((word, i) => (
+          <WordItem key={i} {...word} />
         ))}
       </ScrollView>
 
