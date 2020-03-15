@@ -5,7 +5,18 @@ const CustomText = ({ bold, children, paddingBottom, style, ...rest }) => {
   const isBold = bold ? { fontWeight: '700' } : {};
   const hasPadding = paddingBottom ? { paddingBottom: 16 } : {};
   return (
-    <Text style={[isBold, hasPadding, style, { minHeight: 16 }]} {...rest}>
+    <Text
+      style={[
+        {
+          minHeight: 16,
+          color: '#363537'
+        },
+        isBold,
+        hasPadding,
+        style
+      ]}
+      {...rest}
+    >
       {children}
     </Text>
   );

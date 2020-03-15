@@ -5,9 +5,8 @@ import Input from '../../atoms/Input';
 import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
 import { storeData, getData } from '../../../helpers/asyncStorage';
-import { updateLanguages } from '../../../helpers/observers';
 
-const WordCreate = ({ item, setItem, closeModal, word = {} }) => {
+const WordCreate = ({ item, setWords, closeModal, word = {} }) => {
   const [title, onChangeTitle] = useState(word.title || '');
   const [titleError, setTitleError] = useState(false);
   const [translation, onChangeTranslation] = useState(word.translation || '');
@@ -22,24 +21,24 @@ const WordCreate = ({ item, setItem, closeModal, word = {} }) => {
       
       const valid = list.some(c => {
         if (c.id === item.id) {
-          if (c.words.some(w => w.title.toLowerCase() === title.toLowerCase() && word && word.id !== w.id)) {
+          if (c.words.some(w => w.title.toLowerCase() === title.toLowerCase() && word.id !== w.id)) {
             Alert.alert('This word already exist!');
             return false;
           }
 
+          const filteredWords = word && word.id ? c.words.filter(w => w.id !== word.id) : c.words;
           const words = [
             {
-              id: shortid.generate(),
+              id: word.id || shortid.generate(),
               title,
               translation
             },
-            ...c.words
+            ...filteredWords
           ];
           const sortedWords = words.sort((a, b) => a.title.localeCompare(b.title));
-          const filteredWords = word && word.id ? sortedWords.filter(w => w.id !== word.id) : sortedWords;
 
-          c.words = filteredWords
-          setItem({ ...item, words: filteredWords });
+          c.words = sortedWords
+          setWords(sortedWords);
           if (titleError) setTitleError(false)
 
           return true;
@@ -49,7 +48,6 @@ const WordCreate = ({ item, setItem, closeModal, word = {} }) => {
       if (valid) {
         await storeData('languages', list);
   
-        updateLanguages();
         closeModal(false);
       }
   

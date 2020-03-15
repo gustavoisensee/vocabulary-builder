@@ -52,11 +52,9 @@ const Language = () => {
   return (
     <View style={{ padding: 16, flex: 1 }}>
       <StatusBar barStyle='light-content' />
-      <Text bold>Languages</Text>
-
       <Input
         value={search} onChange={handleSearch}
-        placeholder='Search' style={{ marginBottom: 0 }}
+        placeholder='Search' style={{ marginBottom: 0, marginTop: 0 }}
       />
 
       <ScrollView alwaysBounceHorizontal={false} style={{ marginRight: -8, paddingRight: 8 }}>
@@ -69,7 +67,7 @@ const Language = () => {
         <Text bold>Add language</Text>
       </Button>
 
-      <Modal show={showModal} closeModal={setShowModal}>
+      <Modal show={showModal} closeModal={setShowModal} title='Language'>
         <LanguageCreate closeModal={setShowModal} />
       </Modal>
     </View>

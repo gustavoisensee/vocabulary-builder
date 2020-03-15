@@ -1,4 +1,3 @@
-import shortid from 'shortid';
 import React, { useState } from 'react';
 import { Alert, View, Image } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -14,9 +13,12 @@ import WordItem from '../../components/molecules/WordItem';
 import Wrapper from '../../components/atoms/Wrapper';
 
 const LanguageDetails = ({ navigation, route }) => {
+  const [search, setSearch] = useState();
   const [word, setWord] = useState();
   const [showModal, setShowModal] = useState(false);
   const [item, setItem] = useState(route.params.item);
+  const [words, setWords] = useState(item.words);
+  
   const handleRemove = async() => {
     try {
       const list = await getData('languages');
@@ -29,7 +31,8 @@ const LanguageDetails = ({ navigation, route }) => {
     } catch (err) {
       console.warn(err)
     }
-  }
+  };
+
   const handleRemoveConfirmation = () => {
     Alert.alert(
       'Delete language',
@@ -39,7 +42,7 @@ const LanguageDetails = ({ navigation, route }) => {
         { text: 'Yes', onPress: handleRemove },
       ]
     )
-  }
+  };
 
   const handleEditWord = (word) => {
     setWord(word);
@@ -70,23 +73,40 @@ const LanguageDetails = ({ navigation, route }) => {
     }
   };
 
+  const handleSearch = (value) => {
+    const reg = RegExp(value.toLowerCase());
+    const list = [...item.words];
+    const filteredList = value ? list
+      .filter(l => reg.test(l.title.toLowerCase()))
+      : list;
+    
+    setSearch(value);
+    setWords(filteredList);
+  };
+
+  const handleNewWord = () => {
+    setWord({});
+    setShowModal(true);
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <Wrapper>
-        <Text bold>Language</Text>
+        <Text bold style={{ paddingBottom: 4 }}>Language</Text>
         <Text paddingBottom>{item.title}</Text>
 
-        <Text bold>Number of words</Text>
-        <Text paddingBottom>{item.words ? item.words.length : 0}</Text>
+        <Text bold style={{ paddingBottom: 4 }}>Number of words</Text>
+        <Text paddingBottom={false}>{item.words ? item.words.length : 0}</Text>
 
-        <Button onPress={() => setShowModal(true)} style={{ marginVertical: 0 }}>
-          <Text bold> Add new word </Text>
-        </Button>
+        <Input
+          value={search} onChange={handleSearch}
+          placeholder='Search' style={{ marginBottom: 0 }}
+        />
       </Wrapper>
     
-      <View style={{ flex: 1, marginLeft: 16 }}>
+      <View style={{ flex: 1, marginLeft: 16, marginTop: 0 }}>
         <SwipeListView
-          data={item.words}
+          data={words}
           renderItem={(data) => (
             <WordItem {...data.item} />
           )}
@@ -129,19 +149,29 @@ const LanguageDetails = ({ navigation, route }) => {
         />
       </View>
     
-      <Wrapper>
+      <Wrapper style={{ flexDirection: 'row' }}>
         <Button onPress={handleRemoveConfirmation} style={{
           backgroundColor: BUTTON.secondary,
-          marginBottom: 0
+          marginBottom: 0,
+          marginTop: 0,
+          flex: 1,
+          marginRight: 8
         }}>
           <Text bold style={{ color: 'white' }}>Delete language</Text>
         </Button>
+        <Button onPress={handleNewWord} style={{
+          marginVertical: 0,
+          flex: 1,
+          marginLeft: 8
+        }}>
+          <Text bold>Add new word</Text>
+        </Button>
       </Wrapper>
 
-      <Modal show={showModal} closeModal={setShowModal}>
+      <Modal show={showModal} closeModal={setShowModal} title='Word'>
         <WordCreate
           item={item}
-          setItem={setItem}
+          setWords={setWords}
           closeModal={setShowModal}
           word={word}
         />

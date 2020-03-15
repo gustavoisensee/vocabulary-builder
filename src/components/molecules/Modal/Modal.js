@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Modal, View, Text, TouchableHighlight, StatusBar } from 'react-native';
 
-const CustomModal = ({ children, show, closeModal }) => {
+const CustomModal = ({ children, show, closeModal, title }) => {
   useEffect(() => {
     const barStyle = show ? 'dark-content' : 'light-content';
     StatusBar.setBarStyle(barStyle);
@@ -23,7 +23,7 @@ const CustomModal = ({ children, show, closeModal }) => {
         flexDirection: 'row',
         padding: 16
       }}>
-        <Text style={{ color: 'white', fontSize: 16, fontWeight: '800' }}>Header</Text>
+        <Text style={{ color: 'white', fontSize: 16, fontWeight: '800' }}>{title}</Text>
         <TouchableHighlight onPress={() => closeModal(false)}>
           <Text style={{ color: 'white', fontSize: 16, fontWeight: '800' }}>Close</Text>
         </TouchableHighlight>
