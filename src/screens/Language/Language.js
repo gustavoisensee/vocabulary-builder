@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+ import React, { useState, useEffect } from 'react';
 import { View, StatusBar, ScrollView } from 'react-native';
 import LanguageCreate from '../../components/organisms/LanguageCreate';
 import Text from '../../components/atoms/Text';
@@ -11,8 +11,8 @@ import { languagesSubject } from '../../helpers/observers';
 import Empty from '../../components/atoms/Empty/Empty';
 
 const Language = () => {
-  let storedLanguage = [];
   const [search, setSearch] = useState('');
+  const [storedLanguages, setStoredLanguages] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [showModal, setShowModal] = useState(false);
   
@@ -21,8 +21,8 @@ const Language = () => {
       const list = await getData('languages');
 
       if (list) {
+        setStoredLanguages(list);
         setLanguages(list);
-        storedLanguage = [...list];
       }
     } catch (err) {
       Alert.alert('Erro to fetch languages');
@@ -31,9 +31,9 @@ const Language = () => {
 
   const handleSearch = async(value) => {
     const reg = RegExp(value.toLowerCase());
-    const filteredList = value && storedLanguage ? storedLanguage
+    const filteredList = value && storedLanguages ? storedLanguages
       .filter(l => reg.test(l.title.toLowerCase()))
-      : storedLanguage;
+      : storedLanguages;
     
     setSearch(value);
     setLanguages(filteredList);
