@@ -59,7 +59,7 @@ const LanguageDetails = ({ navigation, route }) => {
           const filteredWords = c.words.filter(w => w.id !== word.id);
 
           c.words = filteredWords
-          setItem({ ...item, words: filteredWords });
+          setWords(filteredWords);
 
           return;
         }

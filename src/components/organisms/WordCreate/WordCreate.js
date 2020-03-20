@@ -11,6 +11,7 @@ const WordCreate = ({ item, setWords, closeModal, word = {} }) => {
   const [title, onChangeTitle] = useState(word.title || '');
   const [titleError, setTitleError] = useState(false);
   const [translation, onChangeTranslation] = useState(word.translation || '');
+  const [description, onChangeDescription] = useState(word.description || '');
 
   const saveWord = async() => {
     try {
@@ -32,7 +33,8 @@ const WordCreate = ({ item, setWords, closeModal, word = {} }) => {
             {
               id: word.id || shortid.generate(),
               title,
-              translation
+              translation,
+              description
             },
             ...filteredWords
           ];
@@ -74,6 +76,16 @@ const WordCreate = ({ item, setWords, closeModal, word = {} }) => {
         value={translation}
         onChange={onChangeTranslation}
         placeholder='Translation'
+      />
+
+      <Text bold>Description</Text>
+      <Input
+        value={description}
+        onChange={onChangeDescription}
+        placeholder='Description'
+        multiline
+        numberOfLines={4}
+        style={{ height: 100 }}
       />
 
       <Button onPress={saveWord}>
