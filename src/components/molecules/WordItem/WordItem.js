@@ -1,29 +1,24 @@
 import React, { useState } from 'react';
-import { Animated, TouchableWithoutFeedback, LayoutAnimation } from 'react-native';
+import {
+  Animated, TouchableWithoutFeedback, LayoutAnimation
+} from 'react-native';
+import { animationSpring } from '../../../consts/animation';
 import Text from '../../atoms/Text';
 
+const DEFAULT_HEIGHT = 50;
+
 const WordItem = (props) => {
-  // const [toggle, setToggle] = useState(false);
-  // const [height] = useState(new Animated.Value(50)) 
   const [height, setHeight] = useState(50);
 
   const handleSetHeight = () => {
-    // Animated.timing(
-    //   height,
-    //   {
-    //     toValue: (toggle ? 50 : 100),
-    //     duration: 500,
-    //   }
-    // ).start();
-    LayoutAnimation.spring();
-    // setToggle(!toggle);
-    setHeight(height === 50 ? 100 : 50);
+    LayoutAnimation.configureNext(animationSpring);
+    setHeight(height === DEFAULT_HEIGHT ? 100 : DEFAULT_HEIGHT);
   }
 
   return (
     <TouchableWithoutFeedback onPress={handleSetHeight}>
       <Animated.View style={{
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         backgroundColor: 'white',
         marginTop: 16,
         paddingVertical: 16,
@@ -35,9 +30,12 @@ const WordItem = (props) => {
         shadowOpacity: 0.3,
         height
       }}>
-        <Text paddingBottom={false}>
+        <Text paddingBottom={false} style={{ marginBottom: 8 }}>
           {`${props.title}${props.translation ? ` / ${props.translation}` : ''}`}
         </Text>
+        {height > DEFAULT_HEIGHT && (
+          <Text numberOfLines={3}>{props.description}</Text>
+        )}
       </Animated.View>
     </TouchableWithoutFeedback>
   );
