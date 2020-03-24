@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Alert, View, Image } from 'react-native';
-import { SwipeListView } from 'react-native-swipe-list-view';
+import { Alert, View, Image, SafeAreaView, SectionList } from 'react-native';
+import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
 import Text from '../../components/atoms/Text';
 import Button from '../../components/atoms/Button';
 import Input from '../../components/atoms/Input';
@@ -13,20 +13,31 @@ import WordItem from '../../components/molecules/WordItem';
 import Wrapper from '../../components/atoms/Wrapper';
 import Empty from '../../components/atoms/Empty/Empty';
 
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
 const LanguageDetails = ({ navigation, route }) => {
+  const { item } = route.params;
   const [search, setSearch] = useState();
   const [word, setWord] = useState();
   const [showModal, setShowModal] = useState(false);
-  const [item, setItem] = useState(route.params.item);
   const [words, setWords] = useState(item.words);
-  
+
+  const getSections = (words) => {
+    const sections = alphabet.map(a => ({ title: a, data: [] }));
+    words.forEach(w => {
+      const i = sections.findIndex(f => f.title === w.title.charAt(0).toUpperCase());
+      sections[i].data.push(w);
+    });
+    return sections.filter(s => !!s.data.length);
+  };
+
   const handleRemove = async() => {
     try {
       const list = await getData('languages');
       const filteredList = list.filter(l => l.id !== item.id)
-      
+
       await storeData('languages', filteredList);
-      
+
       updateLanguages();
       navigation.goBack();
     } catch (err) {
@@ -53,7 +64,7 @@ const LanguageDetails = ({ navigation, route }) => {
   const handleDeleteWord = async(word) => {
     try {
       const list = await getData('languages');
-      
+
       list.some(c => {
         if (c.id === item.id) {
           const filteredWords = c.words.filter(w => w.id !== word.id);
@@ -80,7 +91,7 @@ const LanguageDetails = ({ navigation, route }) => {
     const filteredList = value ? list
       .filter(l => reg.test(l.title.toLowerCase()))
       : list;
-    
+
     setSearch(value);
     setWords(filteredList);
   };
@@ -90,70 +101,92 @@ const LanguageDetails = ({ navigation, route }) => {
     setShowModal(true);
   };
 
+  const renderHiddenItem = (data) => (
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'flex-start',
+        flexDirection: 'row',
+        paddingLeft: 2
+      }}
+    >
+      <Button onPress={() => handleDeleteWord(data.item)} style={{
+        backgroundColor: COLORS.secondary,
+        padding: 11,
+        marginRight: 4
+      }}>
+        <Image
+          source={require('../../../assets/delete.png')}
+          fadeDuration={0}
+          style={{ width: 20, height: 20 }}
+        />
+      </Button>
+      <Button onPress={() => handleEditWord(data.item)} style={{
+        backgroundColor: COLORS.tertiary,
+        padding: 11
+      }}>
+        <Image
+          source={require('../../../assets/edit.png')}
+          fadeDuration={0}
+          style={{ width: 20, height: 20 }}
+        />
+      </Button>
+    </View>
+  );
+
+  const sections = getSections(words);
+
   return (
     <View style={{ flex: 1 }}>
-      <Wrapper>
-        <Text bold style={{ paddingBottom: 4 }}>Language</Text>
-        <Text paddingBottom>{item.title}</Text>
-
-        <Text bold style={{ paddingBottom: 4 }}>Number of words</Text>
-        <Text paddingBottom={false}>{words ? words.length : 0}</Text>
-
+      <Wrapper style={{ paddingBottom: 0 }}>
+        <View style={{ flexDirection: 'row' }}>
+          <View style={{ flex: 1 }}>
+            <Text bold style={{ paddingBottom: 4 }}>Language</Text>
+            <Text paddingBottom>{item.title}</Text>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text bold style={{ paddingBottom: 4 }}>Number of words</Text>
+            <Text paddingBottom={false}>{words ? words.length : 0}</Text>
+          </View>
+        </View>
         <Input
           value={search} onChange={handleSearch}
-          placeholder='Search' style={{ marginBottom: 0 }}
+          placeholder='Search' style={{ marginVertical: 0 }}
         />
       </Wrapper>
-    
+
       {words.length ? (
-        <View style={{ flex: 1, marginLeft: 16, marginTop: 0 }}>
-          <SwipeListView
-            data={words}
-            renderItem={(data) => (
-              <WordItem {...data.item} />
-            )}
-            renderHiddenItem={(data) => {
+        <SafeAreaView style={{ flex: 1 }}>
+          <SectionList
+            sections={sections}
+            keyExtractor={(item, index) => item + index}
+            renderItem={({ item }) => {
               return (
-                <View
-                  style={{
-                    flex: 1,
-                    alignItems: 'flex-start', 
-                    flexDirection: 'row',
-                    paddingLeft: 2
-                  }}
-                >
-                  <Button onPress={() => handleDeleteWord(data.item)} style={{
-                    backgroundColor: COLORS.secondary,
-                    padding: 11,
-                    marginRight: 4
-                  }}>
-                    <Image
-                      source={require('../../../assets/delete.png')}
-                      fadeDuration={0}
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </Button>
-                  <Button onPress={() => handleEditWord(data.item)} style={{
-                    backgroundColor: COLORS.tertiary,
-                    padding: 11
-                  }}>
-                    <Image
-                      source={require('../../../assets/edit.png')}
-                      fadeDuration={0}
-                      style={{ width: 20, height: 20 }}
-                    />
-                  </Button>
+                <View style={{ flex: 1, marginLeft: 16, marginTop: 0 }}>
+                  <SwipeListView
+                    data={[item]}
+                    keyExtractor={(item, index) => item + index}
+                    renderItem={(data) => (
+                      <WordItem {...data.item} />
+                    )}
+                    renderHiddenItem={renderHiddenItem}
+                    style={{ paddingRight: 16 }}
+                    leftOpenValue={100}
+                  />
                 </View>
               )
             }}
-            style={{ paddingRight: 16, paddingBottom: 16 }}
-            leftOpenValue={100}
+            renderSectionHeader={({ section: { title } }) => (
+              <View style={{ backgroundColor: COLORS.grey, marginTop: 16, paddingVertical: 16, marginBottom: 0 }}>
+                <Text bold noPadding style={{ marginLeft: 16 }}>{title}</Text>
+              </View>
+            )}
           />
-        </View>  
+        </SafeAreaView>
       ) : (
         <Empty title='You have no words added so far.' />
       )}
-    
+
       <Wrapper style={{ flexDirection: 'row' }}>
         <Button onPress={handleRemoveConfirmation} style={{
           backgroundColor: COLORS.secondary,

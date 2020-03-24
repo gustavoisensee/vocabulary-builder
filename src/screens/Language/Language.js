@@ -15,7 +15,7 @@ const Language = () => {
   const [storedLanguages, setStoredLanguages] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  
+
   const fetchLanguage = async() => {
     try {
       const list = await getData('languages');
@@ -34,7 +34,7 @@ const Language = () => {
     const filteredList = value && storedLanguages ? storedLanguages
       .filter(l => reg.test(l.title.toLowerCase()))
       : storedLanguages;
-    
+
     setSearch(value);
     setLanguages(filteredList);
   }
