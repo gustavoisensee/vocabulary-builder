@@ -23,7 +23,7 @@ const App = () => (
           />
         )
       }} />
-      <Tab.Screen name='Menu' component={menuStack} options={{ 
+      <Tab.Screen name='Menu' component={menuStack} options={{
         tabBarIcon: () => (
           <Image
             source={require('./assets/menu.png')}
