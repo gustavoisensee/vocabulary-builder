@@ -4,7 +4,7 @@ import { Alert, View } from 'react-native';
 import Input from '../../atoms/Input';
 import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
-import { storeData, getData } from '../../../helpers/asyncStorage';
+import { storeData, retrieveData } from '../../../helpers/asyncStorage';
 import { updateLanguages } from '../../../helpers/observers';
 
 const WordCreate = ({ item, setWords, closeModal, word = {} }) => {
@@ -19,8 +19,8 @@ const WordCreate = ({ item, setWords, closeModal, word = {} }) => {
         setTitleError(true);
         return;
       }
-      const list = await getData('languages');
-      
+      const list = await retrieveData('languages');
+
       const valid = list.some(c => {
         if (c.id === item.id) {
           if (c.words.some(w => w.title.toLowerCase() === title.toLowerCase() && word.id !== w.id)) {
@@ -50,11 +50,11 @@ const WordCreate = ({ item, setWords, closeModal, word = {} }) => {
 
       if (valid) {
         await storeData('languages', list);
-  
+
         updateLanguages();
         closeModal(false);
       }
-  
+
     } catch (err) {
       console.warn(err)
       Alert.alert('Error');

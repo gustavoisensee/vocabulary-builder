@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Alert, View, Image, SafeAreaView, SectionList } from 'react-native';
-import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
+import { SwipeListView } from 'react-native-swipe-list-view';
 import Text from '../../components/atoms/Text';
 import Button from '../../components/atoms/Button';
 import Input from '../../components/atoms/Input';
 import Modal from '../../components/molecules/Modal';
 import WordCreate from '../../components/organisms/WordCreate';
-import { getData, storeData } from '../../helpers/asyncStorage';
+import { retrieveData, storeData } from '../../helpers/asyncStorage';
 import { updateLanguages } from '../../helpers/observers';
 import { COLORS } from '../../consts/colors';
 import WordItem from '../../components/molecules/WordItem';
@@ -33,7 +33,7 @@ const LanguageDetails = ({ navigation, route }) => {
 
   const handleRemove = async() => {
     try {
-      const list = await getData('languages');
+      const list = await retrieveData('languages');
       const filteredList = list.filter(l => l.id !== item.id)
 
       await storeData('languages', filteredList);
@@ -63,7 +63,7 @@ const LanguageDetails = ({ navigation, route }) => {
 
   const handleDeleteWord = async(word) => {
     try {
-      const list = await getData('languages');
+      const list = await retrieveData('languages');
 
       list.some(c => {
         if (c.id === item.id) {

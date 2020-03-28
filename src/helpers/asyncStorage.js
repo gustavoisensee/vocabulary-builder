@@ -10,10 +10,10 @@ export const storeData = async(key, value) => {
   }
 };
 
-export const getData = async(key) => {
+export const retrieveData = async(key) => {
   try {
     const value = await AsyncStorage.getItem(`${PREFIX}:${key}`);
-    
+
     if (value) return JSON.parse(value);
     return null;
   } catch(e) {
@@ -25,7 +25,7 @@ export const getData = async(key) => {
 export const removeData = async(key) => {
   try {
     await AsyncStorage.removeItem(`${PREFIX}:${key}`);
-    
+
     return null;
   } catch(e) {
     // error removing value

@@ -24,7 +24,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.vocabulary.builder",
+      "googleServicesFile": "./config/GoogleService-Info.plist"
+    },
+    "android": {
+      "package": "com.vocabulary.builder",
+      "googleServicesFile": "./config/google-services.json"
     }
   }
 }

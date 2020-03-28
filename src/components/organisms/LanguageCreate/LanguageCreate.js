@@ -4,7 +4,7 @@ import { Alert, View, TouchableHighlight } from 'react-native';
 import Input from '../../atoms/Input';
 import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
-import { storeData, getData } from '../../../helpers/asyncStorage';
+import { storeData, retrieveData } from '../../../helpers/asyncStorage';
 import { updateLanguages } from '../../../helpers/observers';
 
 const LanguageCreate = ({ closeModal }) => {
@@ -16,7 +16,7 @@ const LanguageCreate = ({ closeModal }) => {
         setTitleError(true);
         return;
       }
-      const list = await getData('languages');
+      const list = await retrieveData('languages');
       const convertedList = list || [];
 
       if (convertedList.some(c => c.title.toLowerCase() === title.toLowerCase())) {

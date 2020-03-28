@@ -6,7 +6,7 @@ import Modal from '../../components/molecules/Modal';
 import LanguageItem from '../../components/molecules/LanguageItem';
 import Button from '../../components/atoms/Button';
 import Input from '../../components/atoms/Input';
-import { getData, removeData } from '../../helpers/asyncStorage';
+import { retrieveData } from '../../helpers/asyncStorage';
 import { languagesSubject } from '../../helpers/observers';
 import Empty from '../../components/atoms/Empty/Empty';
 
@@ -18,7 +18,7 @@ const Language = () => {
 
   const fetchLanguage = async() => {
     try {
-      const list = await getData('languages');
+      const list = await retrieveData('languages');
 
       if (list) {
         setStoredLanguages(list);
