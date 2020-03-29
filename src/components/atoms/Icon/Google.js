@@ -1,11 +1,13 @@
 import React from 'react';
 import Svg, { Path } from 'react-native-svg';
+import defaultProps from './defaultProps';
 import defaultPropTypes from './defaultPropTypes';
 import { GUTTER } from '../../../consts/defaultProps';
 
 const Google = ({ size, color, ...rest }) => (
   <Svg width={size} height={size} viewBox={`0 0 ${GUTTER * 1.5} ${GUTTER * 1.5}`} {...rest}>
     <Path
+      fill={color}
       d='M22.60229,10.00391a1.00005,1.00005,0,0,0-.98388-.82227H12.2a.99974.99974,0,0,0-1,
         1V14.0498a.99974.99974,0,0,0,1,1h3.9624a3.65162,3.65162,0,0,1-1.13183,1.1875A5.0604,
         5.0604,0,0,1,12.2,17.02246a4.93525,4.93525,0,0,1-4.64624-3.4378L7.55347,13.583a4.90382,
@@ -25,11 +27,11 @@ const Google = ({ size, color, ...rest }) => (
         17.028a5.60626,5.60626,0,0,0,1.39966-2.79553.9998.9998,0,0,
         0-.9834-1.18262H13.2V11.18164h7.54883c.03418.3457.05127.69531.05127,
         1.0459A9.05156,9.05156,0,0,1,18.72583,18.23926Z'
-      fill={color}
     />
   </Svg>
 );
 
+Google.defaultProps = defaultProps;
 Google.propTypes = defaultPropTypes;
 
 export default Google;
