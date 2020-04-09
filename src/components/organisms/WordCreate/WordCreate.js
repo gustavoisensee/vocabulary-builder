@@ -23,7 +23,7 @@ const WordCreate = ({ item, setItem, word = {}, setWords, closeModal }) => {
       }
       const validWord = alphabet.some(a => a === title.charAt(0).toUpperCase());
       if (!validWord) {
-        setTitleError(true);
+        Alert.alert('The word should start with an alphabetic letter.');
         return;
       }
 
