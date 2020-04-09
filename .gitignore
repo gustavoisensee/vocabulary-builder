@@ -62,4 +62,4 @@ buck-out/
 .expo/*
 
 # Custom
- config/**/*
+config/*
