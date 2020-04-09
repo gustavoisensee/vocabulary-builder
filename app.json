@@ -1,0 +1,17 @@
+{
+  "name": "vocabularybuilder",
+  "displayName": "vocabularybuilder",
+  "expo": {
+    "name": "vocabularybuilder",
+    "slug": "vocabularybuilder",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
