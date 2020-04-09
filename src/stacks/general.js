@@ -17,7 +17,6 @@ const Main = () => {
   const handleEdit = async(route) => {
     const languages = await retrieveData('languages');
     const language = languages.find(f => f.id === route.params.item.id);
-    console.warn(language);
 
     updateLanguageModalSubject(language);
   };

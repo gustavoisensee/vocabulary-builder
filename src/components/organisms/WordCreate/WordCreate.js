@@ -49,7 +49,6 @@ const WordCreate = ({ item, setItem, word = {}, setWords, closeModal }) => {
             ...(filteredWords || [])
           ];
           const sortedWords = words.sort((a, b) => a.title.localeCompare(b.title));
-          console.warn(sortedWords);
 
           listItem.words = sortedWords;
           setWords(sortedWords);

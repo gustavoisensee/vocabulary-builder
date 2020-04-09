@@ -61,7 +61,7 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - lottie-ios (3.1.5)
+  - lottie-ios (3.1.3)
   - lottie-react-native (3.3.2):
     - lottie-ios (~> 3.1.3)
     - React
@@ -337,6 +337,7 @@ DEPENDENCIES:
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -384,7 +385,6 @@ SPEC REPOS:
   trunk:
     - AppAuth
     - boost-for-react-native
-    - lottie-ios
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -423,6 +423,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  lottie-ios:
+    :path: "../node_modules/lottie-ios"
   lottie-react-native:
     :path: "../node_modules/lottie-react-native"
   RCTRequired:
@@ -525,7 +527,7 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: 5465d51ccfeecb7faa12f9ae0024f2044ce4044e
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
-  lottie-ios: 32bf84389337d86fbc8b12266e88452e0abf1dee
+  lottie-ios: 496ac5cea1bbf1a7bd1f1f472f3232eb1b8d744b
   lottie-react-native: 2a1a82bb326ae51331a5520de0cf706733c6db69
   RCTRequired: cec6a34b3ac8a9915c37e7e4ad3aa74726ce4035
   RCTTypeSafety: 93006131180074cffa227a1075802c89a49dd4ce

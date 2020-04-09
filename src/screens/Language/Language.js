@@ -24,7 +24,6 @@ const Language = () => {
       const account = await retrieveData('account');
 
       if (account && account.user) {
-        console.warn('test: ', list)
         saveLanguages(list || []);
       }
       setStoredLanguages(list || []);
