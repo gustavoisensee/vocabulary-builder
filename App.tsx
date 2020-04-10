@@ -23,7 +23,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator tabBarOptions={{
-        backgroundColor: 'black',
+        backgroundColor: COLORS.black,
         activeTintColor: COLORS.secondary
       }}>
         <Tab.Screen name="Main" component={generalStack} options={{ tabBarIcon: HomeIcon }} />

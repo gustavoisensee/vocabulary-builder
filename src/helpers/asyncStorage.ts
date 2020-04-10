@@ -2,7 +2,7 @@ import { AsyncStorage } from 'react-native';
 
 const PREFIX = '@vocabulary-builder';
 
-export const storeData = async(key, value) => {
+export const storeData = async(key: string, value: object) => {
   try {
     await AsyncStorage.setItem(`${PREFIX}:${key}`, JSON.stringify(value));
   } catch (e) {
@@ -10,7 +10,7 @@ export const storeData = async(key, value) => {
   }
 };
 
-export const retrieveData = async(key) => {
+export const retrieveData = async(key: string) => {
   try {
     const value = await AsyncStorage.getItem(`${PREFIX}:${key}`);
 
@@ -22,7 +22,7 @@ export const retrieveData = async(key) => {
   }
 };
 
-export const removeData = async(key) => {
+export const removeData = async(key: string) => {
   try {
     await AsyncStorage.removeItem(`${PREFIX}:${key}`);
 
