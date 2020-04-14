@@ -1,8 +1,17 @@
 import { Subject } from 'rxjs';
 
-export const languagesSubject = new Subject();
-export const updateLanguages = () => languagesSubject.next();
+interface subType {
+  unsubscribe(a?: any): void
+};
 
-export const languageModalSubject = new Subject();
-export const updateLanguageModalSubject = (item: object) =>
+interface rxType {
+  next(a?: any): void,
+  subscribe(a?: any): subType
+};
+
+export const languagesSubject: rxType = new Subject();
+export const updateLanguages = (): void => languagesSubject.next();
+
+export const languageModalSubject: rxType = new Subject();
+export const updateLanguageModalSubject = (item?: object): void =>
   languageModalSubject.next(item);

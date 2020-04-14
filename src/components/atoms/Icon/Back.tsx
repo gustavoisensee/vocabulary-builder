@@ -3,8 +3,9 @@ import Svg, { Path } from 'react-native-svg';
 import defaultProps from './defaultProps';
 import defaultPropTypes from './defaultPropTypes';
 import { GUTTER } from '../../../consts/defaultProps';
+import iconType from './iconType';
 
-const Back = ({ size, color, ...rest }) => (
+const Back = ({ size, color, ...rest }: iconType) => (
   <Svg width={size} height={size} viewBox={`0 0 ${GUTTER * 1.5} ${GUTTER * 1.5}`} {...rest}>
     <Path
       fill={color}

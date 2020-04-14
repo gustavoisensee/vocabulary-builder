@@ -10,17 +10,18 @@ import { retrieveData } from '../../helpers/asyncStorage';
 import { languagesSubject, languageModalSubject, updateLanguageModalSubject } from '../../helpers/observers';
 import Empty from '../../components/atoms/Empty/Empty';
 import { saveLanguages } from '../../actions/languages';
+import lType from '../../types/language';
 
 const Language = () => {
-  const [search, setSearch] = useState('');
-  const [storedLanguages, setStoredLanguages] = useState([]);
-  const [languages, setLanguages] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [item, setItem] = useState();
+  const [search, setSearch] = useState<string>('');
+  const [storedLanguages, setStoredLanguages] = useState<Array<lType>>([]);
+  const [languages, setLanguages] = useState<Array<lType>>([]);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [item, setItem] = useState<any>();
 
   const fetchLanguage = async() => {
     try {
-      let list = await retrieveData('languages');
+      let list: Array<lType> = await retrieveData('languages');
       const account = await retrieveData('account');
 
       if (account && account.user) {
@@ -34,7 +35,7 @@ const Language = () => {
     }
   }
 
-  const handleSearch = async(value) => {
+  const handleSearch = async(value: string) => {
     const reg = RegExp(value.toLowerCase());
     const filteredList = value && storedLanguages ? storedLanguages
       .filter(l => reg.test(l.title.toLowerCase()))
@@ -65,7 +66,7 @@ const Language = () => {
 
 
   useEffect(() => {
-    const subs = languageModalSubject.subscribe((item) => {
+    const subs = languageModalSubject.subscribe((item: any) => {
       setShowModal(true);
       setItem(item);
     });

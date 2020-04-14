@@ -2,7 +2,13 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { COLORS } from '../../../consts/colors';
 
-const Button = ({ children, onPress, style }) => (
+interface bType {
+  children: any,
+  onPress(): any,
+  style?: any
+};
+
+const Button = ({ children, onPress, style }: bType) => (
   <TouchableOpacity onPress={onPress} style={{
     backgroundColor: COLORS.primary,
     padding: 16,

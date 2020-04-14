@@ -1,4 +1,19 @@
-export const options = {
+interface hsType {
+  backgroundColor: string
+};
+
+interface htsType {
+  fontWeight: string,
+  fontSize: number
+};
+
+interface oType {
+  headerStyle: hsType,
+  headerTintColor: string,
+  headerTitleStyle: htsType
+};
+
+export const options: oType = {
   headerStyle: {
     backgroundColor: '#111',
   },

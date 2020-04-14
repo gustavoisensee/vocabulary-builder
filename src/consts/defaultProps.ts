@@ -1,1 +1,1 @@
-export const GUTTER = 16;
+export const GUTTER: number = 16;

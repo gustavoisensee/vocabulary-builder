@@ -7,7 +7,7 @@ import Text from '../../atoms/Text';
 
 const DEFAULT_HEIGHT = 50;
 
-const WordItem = (props) => {
+const WordItem = (props: any) => {
   const [height, setHeight] = useState(50);
 
   const handleSetHeight = () => {

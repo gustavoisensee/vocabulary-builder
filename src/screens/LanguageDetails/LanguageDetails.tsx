@@ -16,18 +16,30 @@ import DeleteIcon from '../../components/atoms/Icon/Delete';
 import EditIcon from '../../components/atoms/Icon/Edit';
 import { animationSpring } from '../../consts/animation';
 import { alphabet } from '../../consts/alphabet';
+import wType from '../../types/word';
+import lType from '../../types/language';
 
-const LanguageDetails = ({ navigation, route }) => {
+interface ldType {
+  navigation: any,
+  route: any
+};
+
+interface sType {
+  title: string
+  data: Array<wType>
+}
+
+const LanguageDetails = ({ navigation, route }: ldType) => {
   const [item, setItem] = useState(route.params.item);
-  const [search, setSearch] = useState();
-  const [word, setWord] = useState();
+  const [search, setSearch] = useState<string>();
+  const [word, setWord] = useState<wType>();
   const [showModal, setShowModal] = useState(false);
   const [words, setWords] = useState(item.words || []);
 
-  const getSections = (words) => {
-    const sections = alphabet.map(a => ({ title: a, data: [] }));
-    words.forEach(w => {
-      const i = sections.findIndex(f => f.title === w.title.charAt(0).toUpperCase());
+  const getSections = (words: Array<wType>) => {
+    const sections: Array<sType> = alphabet.map(a => ({ title: a, data: [] }));
+    words.forEach((w: wType) => {
+      const i = sections.findIndex((f: sType) => f.title === w?.title?.charAt(0).toUpperCase());
       sections[i].data.push(w);
     });
     return sections.filter(s => !!s.data.length);
@@ -35,7 +47,7 @@ const LanguageDetails = ({ navigation, route }) => {
 
   const handleRemove = async() => {
     try {
-      const list = await retrieveData('languages');
+      const list: Array<lType> = await retrieveData('languages');
       const filteredList = list.filter(l => l.id !== item.id)
 
       await storeData('languages', filteredList);
@@ -58,14 +70,14 @@ const LanguageDetails = ({ navigation, route }) => {
     )
   };
 
-  const handleEditWord = (word) => {
+  const handleEditWord = (word: wType) => {
     setWord(word);
     setShowModal(true);
   };
 
-  const handleDeleteWord = async(word) => {
+  const handleDeleteWord = async(word: wType) => {
     try {
-      const list = await retrieveData('languages');
+      const list: Array<lType> = await retrieveData('languages');
 
       list.some(c => {
         if (c.id === item.id) {
@@ -88,7 +100,7 @@ const LanguageDetails = ({ navigation, route }) => {
     }
   };
 
-  const handleSearch = (value) => {
+  const handleSearch = (value: string) => {
     const reg = RegExp(value.toLowerCase());
     const list = [...item.words];
     const filteredList = value ? list
@@ -100,11 +112,11 @@ const LanguageDetails = ({ navigation, route }) => {
   };
 
   const handleNewWord = () => {
-    setWord({});
+    setWord(undefined);
     setShowModal(true);
   };
 
-  const renderHiddenItem = (data) => (
+  const renderHiddenItem = (data: any) => (
     <View
       style={{
         flex: 1,
@@ -131,7 +143,7 @@ const LanguageDetails = ({ navigation, route }) => {
 
   useEffect(() => {
     const subs = languagesSubject.subscribe(async() => {
-      const list = await retrieveData('languages');
+      const list: Array<lType> = await retrieveData('languages');
       if (list && item) {
         const itemRefreshed = list.find(l => l.id === item.id);
         if (itemRefreshed) setItem(itemRefreshed);
@@ -169,13 +181,13 @@ const LanguageDetails = ({ navigation, route }) => {
         <SafeAreaView style={{ flex: 1 }}>
           <SectionList
             sections={sections}
-            keyExtractor={(item, index) => item + index}
+            keyExtractor={(item, index) => `word-section-${index}`}
             renderItem={({ item }) => {
               return (
                 <View style={{ flex: 1, marginLeft: 16, marginTop: 0 }}>
                   <SwipeListView
                     data={[item]}
-                    keyExtractor={(item, index) => item + index}
+                    keyExtractor={(item, index) => `word-section-row-${index}`}
                     renderItem={(data) => (
                       <WordItem {...data.item} />
                     )}
@@ -188,7 +200,7 @@ const LanguageDetails = ({ navigation, route }) => {
             }}
             renderSectionHeader={({ section: { title } }) => (
               <View style={{ backgroundColor: COLORS.grey, marginTop: 16, paddingVertical: 16, marginBottom: 0 }}>
-                <Text bold noPadding style={{ marginLeft: 16 }}>{title}</Text>
+                <Text bold style={{ marginLeft: 16 }}>{title}</Text>
               </View>
             )}
           />

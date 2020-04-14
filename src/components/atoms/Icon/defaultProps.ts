@@ -1,4 +1,4 @@
-import { COLORS } from "../../../consts/colors";
+import { COLORS } from '../../../consts/colors';
 
 export default {
   size: 24,

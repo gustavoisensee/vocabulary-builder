@@ -1,7 +1,12 @@
 import React from 'react';
 import { View } from 'react-native';
 
-const Wrapper = ({ children, style }) => (
+interface wType {
+  children: any,
+  style?: any
+};
+
+const Wrapper = ({ children, style }: wType) => (
   <View style={[{ padding: 16 }, style]}>
     {children}
   </View>

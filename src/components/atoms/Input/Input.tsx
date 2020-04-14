@@ -2,7 +2,17 @@ import React from 'react';
 import { TextInput } from 'react-native';
 import { COLORS } from '../../../consts/colors';
 
-const Input = ({ error, value, style, onChange, ...rest }) => {
+interface iType {
+  error?: boolean,
+  value: string | undefined,
+  style?: any,
+  onChange(a?: any): any,
+  placeholder?: string,
+  multiline?: boolean,
+  numberOfLines?: number
+}
+
+const Input = ({ error, value, style, onChange, ...rest }: iType) => {
   const errorStyle = error ? {
     borderBottomColor: 'red'
   } : {};

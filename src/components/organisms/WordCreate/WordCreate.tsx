@@ -1,4 +1,4 @@
-import shortid from 'shortid';
+import shortid from 'shortid'; // tslint:disable-line
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Alert, View } from 'react-native';
@@ -8,8 +8,18 @@ import Button from '../../atoms/Button';
 import { storeData, retrieveData } from '../../../helpers/asyncStorage';
 import { updateLanguages } from '../../../helpers/observers';
 import { alphabet } from '../../../consts/alphabet';
+import wType from '../../../types/word';
+import lType from '../../../types/language';
 
-const WordCreate = ({ item, setItem, word = {}, setWords, closeModal }) => {
+interface wcType {
+  item: any,
+  setItem(a?: any): void,
+  word: wType,
+  setWords(a?: any): void,
+  closeModal(a?: any): void
+}
+
+const WordCreate = ({ item, setItem, word, setWords, closeModal }: wcType) => {
   const [title, onChangeTitle] = useState(word.title || '');
   const [titleError, setTitleError] = useState(false);
   const [translation, onChangeTranslation] = useState(word.translation || '');
@@ -27,12 +37,12 @@ const WordCreate = ({ item, setItem, word = {}, setWords, closeModal }) => {
         return;
       }
 
-      const list = await retrieveData('languages');
+      const list: Array<lType> = await retrieveData('languages');
 
       const valid = list.some(listItem => {
         if (listItem.id === item.id) {
           if (listItem.words && listItem.words.some(w =>
-            w.title.toLowerCase() === title.toLowerCase() && word.id !== w.id)
+            w?.title?.toLowerCase() === title.toLowerCase() && word.id !== w.id)
           ) {
             Alert.alert('This word already exist!');
             return false;
@@ -48,7 +58,11 @@ const WordCreate = ({ item, setItem, word = {}, setWords, closeModal }) => {
             },
             ...(filteredWords || [])
           ];
-          const sortedWords = words.sort((a, b) => a.title.localeCompare(b.title));
+          const sortedWords = words.sort((a, b) => {
+            const aWord: string = a?.title || '';
+            const bWord: string = b?.title || '';
+            return aWord.localeCompare(bWord);
+          });
 
           listItem.words = sortedWords;
           setWords(sortedWords);

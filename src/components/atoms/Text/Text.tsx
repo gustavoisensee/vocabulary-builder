@@ -2,7 +2,15 @@ import React from 'react';
 import { Text } from 'react-native';
 import { COLORS } from '../../../consts/colors';
 
-const CustomText = ({ bold, children, paddingBottom, style, ...rest }) => {
+interface ctType {
+  bold?: boolean,
+  children: any,
+  paddingBottom?: boolean,
+  style?: any,
+  numberOfLines?: number
+};
+
+const CustomText = ({ bold, children, paddingBottom, style, ...rest }: ctType) => {
   const isBold = bold ? { fontWeight: '700' } : {};
   const hasPadding = paddingBottom ? { paddingBottom: 16 } : {};
   return (

@@ -1,7 +1,14 @@
 import React, { useEffect } from 'react';
 import { Alert, Modal, View, Text, TouchableHighlight, StatusBar } from 'react-native';
 
-const CustomModal = ({ children, show, closeModal, title }) => {
+interface cmType {
+  children: any,
+  show: boolean,
+  closeModal(a?: boolean): void,
+  title: string
+}
+
+const CustomModal = ({ children, show, closeModal, title }: cmType) => {
   useEffect(() => {
     const barStyle = show ? 'dark-content' : 'light-content';
     StatusBar.setBarStyle(barStyle);

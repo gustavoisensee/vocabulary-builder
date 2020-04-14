@@ -3,7 +3,11 @@ import { View } from 'react-native';
 import Text from '../Text';
 import LottieView from 'lottie-react-native';
 
-const Empty = ({ title }) => (
+interface eType {
+  title: string
+};
+
+const Empty = ({ title }: eType) => (
   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
     <LottieView
       source={require('../../../../assets/empty-state.json')}

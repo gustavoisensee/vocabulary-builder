@@ -1,4 +1,4 @@
-import shortid from 'shortid';
+import shortid from 'shortid'; // tslint:disable-line
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, View } from 'react-native';
@@ -7,8 +7,14 @@ import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
 import { storeData, retrieveData } from '../../../helpers/asyncStorage';
 import { updateLanguages } from '../../../helpers/observers';
+import lType from '../../../types/language';
 
-const LanguageCreate = ({ closeModal, item }) => {
+interface lcType {
+  closeModal(a: boolean): void,
+  item: any
+};
+
+const LanguageCreate = ({ closeModal, item }: lcType) => {
   const { id, title: itemTitle, words } = item || {};
   const [title, onChangeTitle] = useState(itemTitle);
   const [titleError, setTitleError] = useState(false);
@@ -18,9 +24,9 @@ const LanguageCreate = ({ closeModal, item }) => {
         setTitleError(true);
         return;
       }
-      const list = await retrieveData('languages');
-      let newList;
-      let valid;
+      const list: Array<lType> = await retrieveData('languages');
+      let newList: Array<lType> = [];
+      let valid: boolean;
 
       if (id) {
         valid = list.some(listItem => {

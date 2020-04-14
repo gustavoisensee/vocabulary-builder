@@ -11,8 +11,13 @@ import { COLORS } from '../../consts/colors';
 import { updateLanguages } from '../../helpers/observers';
 import { getLanguages } from '../../actions/languages';
 
+interface uType {
+  givenName: string,
+  familyName: string
+};
+
 const Menu = () => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<uType>();
 
   const handleSignIn = async() => {
     try {
@@ -45,7 +50,7 @@ const Menu = () => {
       if (result) {
         LayoutAnimation.configureNext(animationSpring);
         storeData('account', null);
-        setUser(null);
+        setUser(undefined);
       }
     } catch (err) {
       console.warn('Logout error:', err);
@@ -82,8 +87,8 @@ const Menu = () => {
         <Text style={{ fontSize: 24 }} bold>
           Welcome!
         </Text>
-        <Text style={{ fontSize: 22, fontStyle: 'italic' }} paddingBottom={0}>
-          {`${user.givenName} ${user.familyName}`}
+        <Text style={{ fontSize: 22, fontStyle: 'italic' }}>
+          {`${user?.givenName} ${user?.familyName}` }}
         </Text>
       </View>
       <Text style={{ fontSize: 18, paddingBottom: 0, lineHeight: 26 }} >

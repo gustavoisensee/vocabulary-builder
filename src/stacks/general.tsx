@@ -10,13 +10,14 @@ import EditIcon from '../components/atoms/Icon/Edit';
 import { GUTTER } from '../consts/defaultProps';
 import { updateLanguageModalSubject } from '../helpers/observers';
 import { retrieveData } from '../helpers/asyncStorage';
+import lType from '../types/language';
 
 const Stack = createStackNavigator();
 
 const Main = () => {
-  const handleEdit = async(route) => {
+  const handleEdit = async(route: any) => {
     const languages = await retrieveData('languages');
-    const language = languages.find(f => f.id === route.params.item.id);
+    const language = languages.find((f: lType) => f.id === route.params.item.id);
 
     updateLanguageModalSubject(language);
   };
@@ -34,7 +35,7 @@ const Main = () => {
           headerLeft: () => (
             <TouchableOpacity
               onPress={navigation.goBack}
-              color={COLORS.white} style={{ paddingLeft: GUTTER / 2 }}
+              style={{ paddingLeft: GUTTER / 2 }}
             >
               <BackIcon color={COLORS.secondary} size={36} />
             </TouchableOpacity>

@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Text from '../../atoms/Text';
 
-const LanguageItem = (props) => {
+const LanguageItem = (props: any) => {
   const navigation = useNavigation();
   const handleRedirect = () => {
     navigation.navigate('LanguageDetails', { item: { ...props } });
@@ -15,7 +15,6 @@ const LanguageItem = (props) => {
       backgroundColor: 'white',
       marginTop: 16,
       padding: 16,
-      border: 1,
       borderRadius: 3,
       shadowColor: '#000',
       shadowOffset: { width: 2, height: 4 },

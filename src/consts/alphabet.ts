@@ -1,1 +1,1 @@
-export const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+export const alphabet: Array<string> = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
