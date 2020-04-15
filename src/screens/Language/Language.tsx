@@ -1,4 +1,4 @@
- import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Alert, View, StatusBar, ScrollView } from 'react-native';
 import LanguageCreate from '../../components/organisms/LanguageCreate';
 import Text from '../../components/atoms/Text';
@@ -7,7 +7,11 @@ import LanguageItem from '../../components/molecules/LanguageItem';
 import Button from '../../components/atoms/Button';
 import Input from '../../components/atoms/Input';
 import { retrieveData } from '../../helpers/asyncStorage';
-import { languagesSubject, languageModalSubject, updateLanguageModalSubject } from '../../helpers/observers';
+import {
+  languagesSubject,
+  languageModalSubject,
+  updateLanguageModalSubject
+} from '../../helpers/observers';
 import Empty from '../../components/atoms/Empty/Empty';
 import { saveLanguages } from '../../actions/languages';
 import lType from '../../types/language';
@@ -19,7 +23,7 @@ const Language = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [item, setItem] = useState<any>();
 
-  const fetchLanguage = async() => {
+  const fetchLanguage = async () => {
     try {
       let list: Array<lType> = await retrieveData('languages');
       const account = await retrieveData('account');
@@ -29,21 +33,21 @@ const Language = () => {
       }
       setStoredLanguages(list || []);
       setLanguages(list || []);
-
     } catch (err) {
       Alert.alert('Erro to fetch languages');
     }
-  }
+  };
 
-  const handleSearch = async(value: string) => {
+  const handleSearch = async (value: string) => {
     const reg = RegExp(value.toLowerCase());
-    const filteredList = value && storedLanguages ? storedLanguages
-      .filter(l => reg.test(l.title.toLowerCase()))
-      : storedLanguages;
+    const filteredList =
+      value && storedLanguages
+        ? storedLanguages.filter((l) => reg.test(l.title.toLowerCase()))
+        : storedLanguages;
 
     setSearch(value);
     setLanguages(filteredList);
-  }
+  };
 
   const handleOpenModal = () => {
     updateLanguageModalSubject();
@@ -61,9 +65,8 @@ const Language = () => {
 
     return () => {
       if (subs) subs.unsubscribe();
-    }
+    };
   }, []);
-
 
   useEffect(() => {
     const subs = languageModalSubject.subscribe((item: any) => {
@@ -73,33 +76,37 @@ const Language = () => {
 
     return () => {
       if (subs) subs.unsubscribe();
-    }
+    };
   }, []);
-
 
   return (
     <View style={{ padding: 16, flex: 1 }}>
-      <StatusBar barStyle='light-content' />
+      <StatusBar barStyle="light-content" />
       <Input
-        value={search} onChange={handleSearch}
-        placeholder='Search' style={{ marginBottom: 0, marginTop: 0 }}
+        value={search}
+        onChange={handleSearch}
+        placeholder="Search"
+        style={{ marginBottom: 0, marginTop: 0 }}
       />
 
       {languages.length ? (
-        <ScrollView alwaysBounceHorizontal={false} style={{ marginRight: -8, paddingRight: 8 }}>
+        <ScrollView
+          alwaysBounceHorizontal={false}
+          style={{ marginRight: -8, paddingRight: 8 }}
+        >
           {languages.map((l, i) => (
             <LanguageItem key={i} {...l} />
           ))}
         </ScrollView>
       ) : (
-        <Empty title='You have no languages added so far.' />
+        <Empty title="You have no languages added so far." />
       )}
 
       <Button onPress={handleOpenModal} style={{ marginBottom: 0 }}>
         <Text bold>Add language</Text>
       </Button>
 
-      <Modal show={showModal} closeModal={setShowModal} title='Language'>
+      <Modal show={showModal} closeModal={setShowModal} title="Language">
         <LanguageCreate closeModal={setShowModal} item={item} />
       </Modal>
     </View>

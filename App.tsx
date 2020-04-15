@@ -12,9 +12,9 @@ import MenuIcon from './src/components/atoms/Icon/Menu';
 const Tab = createBottomTabNavigator();
 
 const App = () => {
-  const initilize = async() => {
+  const initilize = async () => {
     await initFirebase();
-  }
+  };
 
   useEffect(() => {
     initilize();
@@ -22,12 +22,22 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator tabBarOptions={{
-        backgroundColor: COLORS.black,
-        activeTintColor: COLORS.secondary
-      }}>
-        <Tab.Screen name="Main" component={generalStack} options={{ tabBarIcon: HomeIcon }} />
-        <Tab.Screen name='Menu' component={menuStack} options={{ tabBarIcon: MenuIcon }} />
+      <Tab.Navigator
+        tabBarOptions={{
+          backgroundColor: COLORS.black,
+          activeTintColor: COLORS.secondary
+        }}
+      >
+        <Tab.Screen
+          name="Main"
+          component={generalStack}
+          options={{ tabBarIcon: HomeIcon }}
+        />
+        <Tab.Screen
+          name="Menu"
+          component={menuStack}
+          options={{ tabBarIcon: MenuIcon }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );

@@ -7,26 +7,31 @@ const LanguageItem = (props: any) => {
   const navigation = useNavigation();
   const handleRedirect = () => {
     navigation.navigate('LanguageDetails', { item: { ...props } });
-  }
+  };
 
   return (
-    <View style={{
-      justifyContent: 'center',
-      backgroundColor: 'white',
-      marginTop: 16,
-      padding: 16,
-      borderRadius: 3,
-      shadowColor: '#000',
-      shadowOffset: { width: 2, height: 4 },
-      shadowOpacity: 0.3,
-      minHeight: 60,
-    }}>
-      <TouchableOpacity onPress={handleRedirect} style={{
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-      }}>
+    <View
+      style={{
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        marginTop: 16,
+        padding: 16,
+        borderRadius: 3,
+        shadowColor: '#000',
+        shadowOffset: { width: 2, height: 4 },
+        shadowOpacity: 0.3,
+        minHeight: 60
+      }}
+    >
+      <TouchableOpacity
+        onPress={handleRedirect}
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}
+      >
         <Text>{props.title}</Text>
         <Text bold>{`${props?.words?.length || 0} words`}</Text>
       </TouchableOpacity>

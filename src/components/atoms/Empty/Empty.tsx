@@ -4,8 +4,8 @@ import Text from '../Text';
 import LottieView from 'lottie-react-native';
 
 interface eType {
-  title: string
-};
+  title: string;
+}
 
 const Empty = ({ title }: eType) => (
   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

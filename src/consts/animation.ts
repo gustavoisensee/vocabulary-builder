@@ -1,17 +1,16 @@
-
 interface aType {
-  type: string,
-  property?: string,
-  duration?: number,
-  springDamping?: number
+  type: string;
+  property?: string;
+  duration?: number;
+  springDamping?: number;
 }
 
 interface asType {
-  duration: number,
-  create: aType,
-  update: aType,
-  delete: aType
-};
+  duration: number;
+  create: aType;
+  update: aType;
+  delete: aType;
+}
 
 export const animationSpring: asType = {
   duration: 700,

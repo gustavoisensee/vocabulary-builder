@@ -1,10 +1,10 @@
 interface cType {
-  primary: string,
-  secondary: string,
-  tertiary: string,
-  black: string,
-  grey: string,
-  white: string
+  primary: string;
+  secondary: string;
+  tertiary: string;
+  black: string;
+  grey: string;
+  white: string;
 }
 
 export const COLORS: cType = {

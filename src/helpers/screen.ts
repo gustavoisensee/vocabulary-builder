@@ -1,21 +1,21 @@
 interface hsType {
-  backgroundColor: string
-};
+  backgroundColor: string;
+}
 
 interface htsType {
-  fontWeight: string,
-  fontSize: number
-};
+  fontWeight: string;
+  fontSize: number;
+}
 
 interface oType {
-  headerStyle: hsType,
-  headerTintColor: string,
-  headerTitleStyle: htsType
-};
+  headerStyle: hsType;
+  headerTintColor: string;
+  headerTitleStyle: htsType;
+}
 
 export const options: oType = {
   headerStyle: {
-    backgroundColor: '#111',
+    backgroundColor: '#111'
   },
   headerTintColor: '#fff',
   headerTitleStyle: {

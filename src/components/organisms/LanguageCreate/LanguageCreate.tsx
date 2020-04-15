@@ -10,15 +10,15 @@ import { updateLanguages } from '../../../helpers/observers';
 import lType from '../../../types/language';
 
 interface lcType {
-  closeModal(a: boolean): void,
-  item: any
-};
+  closeModal(a: boolean): void;
+  item: any;
+}
 
 const LanguageCreate = ({ closeModal, item }: lcType) => {
   const { id, title: itemTitle, words } = item || {};
   const [title, onChangeTitle] = useState(itemTitle);
   const [titleError, setTitleError] = useState(false);
-  const saveLanguage = async() => {
+  const saveLanguage = async () => {
     try {
       if (!title.replace(/ /g, '')) {
         setTitleError(true);
@@ -29,17 +29,17 @@ const LanguageCreate = ({ closeModal, item }: lcType) => {
       let valid: boolean;
 
       if (id) {
-        valid = list.some(listItem => {
-          if (listItem.title.toLowerCase() === title.toLowerCase() && listItem.id !== id) {
+        valid = list.some((listItem) => {
+          if (
+            listItem.title.toLowerCase() === title.toLowerCase() &&
+            listItem.id !== id
+          ) {
             Alert.alert('This language already exist!');
             return false;
           }
 
-          const filteredLanguages = list.filter(w => w.id !== id);
-          const languages = [
-            { id, title, words },
-            ...filteredLanguages
-          ];
+          const filteredLanguages = list.filter((w) => w.id !== id);
+          const languages = [{ id, title, words }, ...filteredLanguages];
 
           newList = languages;
           return true;
@@ -56,15 +56,16 @@ const LanguageCreate = ({ closeModal, item }: lcType) => {
 
       if (titleError) setTitleError(false);
       if (valid) {
-        const sortedWords = newList.sort((a, b) => a.title.localeCompare(b.title));
+        const sortedWords = newList.sort((a, b) =>
+          a.title.localeCompare(b.title)
+        );
         await storeData('languages', sortedWords);
 
         updateLanguages();
         closeModal(false);
       }
-
     } catch (err) {
-      console.warn(err)
+      console.warn(err);
       Alert.alert('Error');
     }
   };
@@ -77,7 +78,7 @@ const LanguageCreate = ({ closeModal, item }: lcType) => {
         // TOOD check if item existe and grab item.title
         value={title}
         onChange={onChangeTitle}
-        placeholder='Language'
+        placeholder="Language"
       />
 
       <Button onPress={saveLanguage}>

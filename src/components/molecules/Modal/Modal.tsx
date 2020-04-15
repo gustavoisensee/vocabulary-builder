@@ -1,11 +1,18 @@
 import React, { useEffect } from 'react';
-import { Alert, Modal, View, Text, TouchableHighlight, StatusBar } from 'react-native';
+import {
+  Alert,
+  Modal,
+  View,
+  Text,
+  TouchableHighlight,
+  StatusBar
+} from 'react-native';
 
 interface cmType {
-  children: any,
-  show: boolean,
-  closeModal(a?: boolean): void,
-  title: string
+  children: any;
+  show: boolean;
+  closeModal(a?: boolean): void;
+  title: string;
 }
 
 const CustomModal = ({ children, show, closeModal, title }: cmType) => {
@@ -24,22 +31,32 @@ const CustomModal = ({ children, show, closeModal, title }: cmType) => {
         Alert.alert('Modal has been closed.');
       }}
     >
-      <View style={{
-        backgroundColor: 'black',
-        justifyContent: 'space-between',
-        flexDirection: 'row',
-        padding: 16
-      }}>
-        <Text style={{ color: 'white', fontSize: 16, fontWeight: '800' }}>{title}</Text>
+      <View
+        style={{
+          backgroundColor: 'black',
+          justifyContent: 'space-between',
+          flexDirection: 'row',
+          padding: 16
+        }}
+      >
+        <Text style={{ color: 'white', fontSize: 16, fontWeight: '800' }}>
+          {title}
+        </Text>
         <TouchableHighlight onPress={() => closeModal(false)}>
-          <Text style={{ color: 'white', fontSize: 16, fontWeight: '800' }}>Close</Text>
+          <Text
+            style={{
+              color: 'white',
+              fontSize: 16,
+              fontWeight: '800'
+            }}
+          >
+            Close
+          </Text>
         </TouchableHighlight>
       </View>
-      <View style={{ margin: 16 }}>
-          {children}
-      </View>
+      <View style={{ margin: 16 }}>{children}</View>
     </Modal>
-  )
+  );
 };
 
 CustomModal.defaultProps = {

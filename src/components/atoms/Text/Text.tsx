@@ -3,14 +3,20 @@ import { Text } from 'react-native';
 import { COLORS } from '../../../consts/colors';
 
 interface ctType {
-  bold?: boolean,
-  children: any,
-  paddingBottom?: boolean,
-  style?: any,
-  numberOfLines?: number
-};
+  bold?: boolean;
+  children: any;
+  paddingBottom?: boolean;
+  style?: any;
+  numberOfLines?: number;
+}
 
-const CustomText = ({ bold, children, paddingBottom, style, ...rest }: ctType) => {
+const CustomText = ({
+  bold,
+  children,
+  paddingBottom,
+  style,
+  ...rest
+}: ctType) => {
   const isBold = bold ? { fontWeight: '700' } : {};
   const hasPadding = paddingBottom ? { paddingBottom: 16 } : {};
   return (

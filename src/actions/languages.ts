@@ -2,10 +2,11 @@ import firebase from 'firebase';
 import { retrieveData } from '../helpers/asyncStorage';
 import lType from '../types/language';
 
-export const saveLanguages = async(languages: Array<lType>): Promise<any> => {
+export const saveLanguages = async (languages: Array<lType>): Promise<any> => {
   try {
     const { user } = await retrieveData('account');
-    const result = await firebase.database()
+    const result = await firebase
+      .database()
       .ref(`users/${user.id}/languages`)
       .set(languages);
 
@@ -16,10 +17,11 @@ export const saveLanguages = async(languages: Array<lType>): Promise<any> => {
   }
 };
 
-export const getLanguages = async(): Promise<any> => {
+export const getLanguages = async (): Promise<any> => {
   try {
     const { user } = await retrieveData('account');
-    const data = await firebase.database()
+    const data = await firebase
+      .database()
       .ref(`users/${user.id}/languages`)
       .once('value');
 

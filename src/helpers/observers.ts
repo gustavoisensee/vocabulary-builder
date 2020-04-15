@@ -1,13 +1,13 @@
 import { Subject } from 'rxjs';
 
 interface subType {
-  unsubscribe(a?: any): void
-};
+  unsubscribe(a?: any): void;
+}
 
 interface rxType {
-  next(a?: any): void,
-  subscribe(a?: any): subType
-};
+  next(a?: any): void;
+  subscribe(a?: any): subType;
+}
 
 export const languagesSubject: rxType = new Subject();
 export const updateLanguages = (): void => languagesSubject.next();

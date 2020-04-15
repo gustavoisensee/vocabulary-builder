@@ -1,4 +1,4 @@
 export default interface iconType {
-  size?: number,
-  color?: string
-};
+  size?: number;
+  color?: string;
+}
