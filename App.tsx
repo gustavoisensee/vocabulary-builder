@@ -24,7 +24,7 @@ const App = () => {
     <NavigationContainer>
       <Tab.Navigator
         tabBarOptions={{
-          backgroundColor: COLORS.black,
+          inactiveTintColor: COLORS.black,
           activeTintColor: COLORS.secondary
         }}
       >

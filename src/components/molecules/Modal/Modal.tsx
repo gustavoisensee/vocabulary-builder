@@ -11,7 +11,7 @@ import {
 interface cmType {
   children: any;
   show: boolean;
-  closeModal(a?: boolean): void;
+  closeModal(a?: any): void;
   title: string;
 }
 
