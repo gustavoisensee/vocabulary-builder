@@ -1,4 +1,5 @@
-import shortid from 'shortid'; // tslint:disable-line
+// @ts-ignore
+import shortid from 'shortid';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, View } from 'react-native';

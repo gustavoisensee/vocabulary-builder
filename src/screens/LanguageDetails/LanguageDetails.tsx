@@ -24,6 +24,7 @@ import { animationSpring } from '../../consts/animation';
 import { alphabet } from '../../consts/alphabet';
 import wType from '../../types/word';
 import lType from '../../types/language';
+import styles from './styles';
 
 interface ldType {
   navigation: any;
@@ -42,7 +43,7 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
   const [showModal, setShowModal] = useState(false);
   const [words, setWords] = useState(item.words || []);
 
-  const getSections = (words: Array<wType>) => {
+  const getSections = () => {
     const sections: Array<sType> = alphabet.map((a) => ({
       title: a,
       data: []
@@ -93,8 +94,6 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
 
           c.words = filteredWords;
           setWords(filteredWords);
-
-          return;
         }
       });
 
@@ -166,12 +165,12 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
     return () => {
       if (subs) subs.unsubscribe();
     };
-  }, []);
+  }, [item]);
 
-  const sections = getSections(words);
+  const sections = getSections();
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <Wrapper style={{ paddingBottom: 0 }}>
         <View style={{ flexDirection: 'row' }}>
           <View style={{ flex: 1 }}>

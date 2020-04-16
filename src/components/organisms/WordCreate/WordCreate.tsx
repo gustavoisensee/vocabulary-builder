@@ -1,4 +1,5 @@
-import shortid from 'shortid'; // tslint:disable-line
+// @ts-ignore
+import shortid from 'shortid';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Alert, View } from 'react-native';
@@ -14,16 +15,16 @@ import lType from '../../../types/language';
 interface wcType {
   item: any;
   setItem(a?: any): void;
-  word: wType;
+  word: wType | undefined;
   setWords(a?: any): void;
   closeModal(a?: any): void;
 }
 
 const WordCreate = ({ item, setItem, word, setWords, closeModal }: wcType) => {
-  const [title, onChangeTitle] = useState(word.title || '');
+  const [title, onChangeTitle] = useState(word?.title || '');
   const [titleError, setTitleError] = useState(false);
-  const [translation, onChangeTranslation] = useState(word.translation || '');
-  const [description, onChangeDescription] = useState(word.description || '');
+  const [translation, onChangeTranslation] = useState(word?.translation || '');
+  const [description, onChangeDescription] = useState(word?.description || '');
 
   const saveWord = async () => {
     try {
@@ -48,7 +49,7 @@ const WordCreate = ({ item, setItem, word, setWords, closeModal }: wcType) => {
             listItem.words.some(
               (w) =>
                 w?.title?.toLowerCase() === title.toLowerCase() &&
-                word.id !== w.id
+                word?.id !== w.id
             )
           ) {
             Alert.alert('This word already exist!');
@@ -61,7 +62,7 @@ const WordCreate = ({ item, setItem, word, setWords, closeModal }: wcType) => {
               : listItem.words;
           const words = [
             {
-              id: word.id || shortid.generate(),
+              id: word?.id || shortid.generate(),
               title,
               translation,
               description

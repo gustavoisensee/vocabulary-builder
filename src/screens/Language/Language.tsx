@@ -25,7 +25,7 @@ const Language = () => {
 
   const fetchLanguage = async () => {
     try {
-      let list: Array<lType> = await retrieveData('languages');
+      const list: Array<lType> = await retrieveData('languages');
       const account = await retrieveData('account');
 
       if (account && account.user) {

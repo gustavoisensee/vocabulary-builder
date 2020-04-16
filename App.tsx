@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import generalStack from './src/stacks/general';

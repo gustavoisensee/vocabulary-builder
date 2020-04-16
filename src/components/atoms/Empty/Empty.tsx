@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
-import Text from '../Text';
 import LottieView from 'lottie-react-native';
+import Text from '../Text';
 
 interface eType {
   title: string;
