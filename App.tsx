@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import generalStack from './src/stacks/general';
@@ -12,9 +11,9 @@ import MenuIcon from './src/components/atoms/Icon/Menu';
 const Tab = createBottomTabNavigator();
 
 const App = () => {
-  const initilize = async() => {
+  const initilize = async () => {
     await initFirebase();
-  }
+  };
 
   useEffect(() => {
     initilize();
@@ -22,12 +21,22 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator tabBarOptions={{
-        backgroundColor: 'black',
-        activeTintColor: COLORS.secondary
-      }}>
-        <Tab.Screen name="Main" component={generalStack} options={{ tabBarIcon: HomeIcon }} />
-        <Tab.Screen name='Menu' component={menuStack} options={{ tabBarIcon: MenuIcon }} />
+      <Tab.Navigator
+        tabBarOptions={{
+          inactiveTintColor: COLORS.black,
+          activeTintColor: COLORS.secondary
+        }}
+      >
+        <Tab.Screen
+          name="Main"
+          component={generalStack}
+          options={{ tabBarIcon: HomeIcon }}
+        />
+        <Tab.Screen
+          name="Menu"
+          component={menuStack}
+          options={{ tabBarIcon: MenuIcon }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
