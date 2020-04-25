@@ -44,7 +44,7 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
   const [words, setWords] = useState(item.words || []);
 
   const getSections = () => {
-    const sections: Array<sType> = alphabet.map((a) => ({
+    const sections: Array<sType> = alphabet.map(a => ({
       title: a,
       data: []
     }));
@@ -54,13 +54,13 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
       );
       sections[i].data.push(w);
     });
-    return sections.filter((s) => !!s.data.length);
+    return sections.filter(s => !!s.data.length);
   };
 
   const handleRemove = async () => {
     try {
       const list: Array<lType> = await retrieveData('languages');
-      const filteredList = list.filter((l) => l.id !== item.id);
+      const filteredList = list.filter(l => l.id !== item.id);
 
       await storeData('languages', filteredList);
 
@@ -79,18 +79,18 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
     );
   };
 
-  const handleEditWord = (word: wType) => {
-    setWord(word);
+  const handleEditWord = (row: wType) => {
+    setWord(row);
     setShowModal(true);
   };
 
-  const handleDeleteWord = async (word: wType) => {
+  const handleDeleteWord = async (row: wType) => {
     try {
       const list: Array<lType> = await retrieveData('languages');
 
-      list.some((c) => {
+      list.some(c => {
         if (c.id === item.id) {
-          const filteredWords = c.words.filter((w) => w.id !== word.id);
+          const filteredWords = c.words.filter(w => w.id !== row.id);
 
           c.words = filteredWords;
           setWords(filteredWords);
@@ -110,7 +110,7 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
     const reg = RegExp(value.toLowerCase());
     const list = [...item.words];
     const filteredList = value
-      ? list.filter((l) => reg.test(l.title.toLowerCase()))
+      ? list.filter(l => reg.test(l.title.toLowerCase()))
       : list;
 
     setSearch(value);
@@ -123,30 +123,16 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
   };
 
   const renderHiddenItem = (data: any) => (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'flex-start',
-        flexDirection: 'row',
-        paddingLeft: 2
-      }}
-    >
+    <View style={styles.containerHiddenItem}>
       <Button
         onPress={() => handleDeleteWord(data.item)}
-        style={{
-          backgroundColor: COLORS.secondary,
-          padding: 11,
-          marginRight: 4
-        }}
+        style={styles.buttonDeleteWord}
       >
         <DeleteIcon color={COLORS.white} size={20} />
       </Button>
       <Button
         onPress={() => handleEditWord(data.item)}
-        style={{
-          backgroundColor: COLORS.tertiary,
-          padding: 11
-        }}
+        style={styles.buttonEditWord}
       >
         <EditIcon color={COLORS.white} size={20} />
       </Button>
@@ -157,7 +143,7 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
     const subs = languagesSubject.subscribe(async () => {
       const list: Array<lType> = await retrieveData('languages');
       if (list && item) {
-        const itemRefreshed = list.find((l) => l.id === item.id);
+        const itemRefreshed = list.find(l => l.id === item.id);
         if (itemRefreshed) setItem(itemRefreshed);
       }
     });
@@ -171,16 +157,16 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
 
   return (
     <View style={styles.container}>
-      <Wrapper style={{ paddingBottom: 0 }}>
-        <View style={{ flexDirection: 'row' }}>
-          <View style={{ flex: 1 }}>
-            <Text bold style={{ paddingBottom: 4 }}>
+      <Wrapper style={styles.headerContainer}>
+        <View style={styles.row}>
+          <View style={styles.flex}>
+            <Text bold style={styles.headerText}>
               Language
             </Text>
             <Text paddingBottom>{item.title}</Text>
           </View>
-          <View style={{ flex: 1 }}>
-            <Text bold style={{ paddingBottom: 4 }}>
+          <View style={styles.flex}>
+            <Text bold style={styles.headerText}>
               Number of words
             </Text>
             <Text paddingBottom={false}>{words ? words.length : 0}</Text>
@@ -189,46 +175,33 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
         <Input
           value={search}
           onChange={handleSearch}
-          placeholder="Search"
-          style={{ marginVertical: 0 }}
+          placeholder='Search'
+          style={styles.searchInput}
         />
       </Wrapper>
 
       {words.length ? (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={styles.flex}>
           <SectionList
             sections={sections}
-            keyExtractor={(item, index) => `word-section-${index}`}
-            renderItem={({ item }) => {
+            keyExtractor={({}, index) => `word-section-${index}`}
+            renderItem={({ item: wordItem }) => {
               return (
-                <View
-                  style={{
-                    flex: 1,
-                    marginLeft: 16,
-                    marginTop: 0
-                  }}
-                >
+                <View style={styles.wordContainer}>
                   <SwipeListView
-                    data={[item]}
-                    keyExtractor={(item, index) => `word-section-row-${index}`}
-                    renderItem={(data) => <WordItem {...data.item} />}
+                    data={[wordItem]}
+                    keyExtractor={({}, index) => `word-section-row-${index}`}
+                    renderItem={data => <WordItem {...data.item} />}
                     renderHiddenItem={renderHiddenItem}
-                    style={{ paddingRight: 16 }}
+                    style={styles.swipeContainer}
                     leftOpenValue={100}
                   />
                 </View>
               );
             }}
             renderSectionHeader={({ section: { title } }) => (
-              <View
-                style={{
-                  backgroundColor: COLORS.grey,
-                  marginTop: 16,
-                  paddingVertical: 16,
-                  marginBottom: 0
-                }}
-              >
-                <Text bold style={{ marginLeft: 16 }}>
+              <View style={styles.sectionHeaderContainer}>
+                <Text bold style={styles.sectionHeaderTitle}>
                   {title}
                 </Text>
               </View>
@@ -236,37 +209,26 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
           />
         </SafeAreaView>
       ) : (
-        <Empty title="You have no words added so far." />
+        <Empty title='You have no words added so far.' />
       )}
 
-      <Wrapper style={{ flexDirection: 'row' }}>
+      <Wrapper style={styles.row}>
         <Button
           onPress={handleRemoveConfirmation}
-          style={{
-            backgroundColor: COLORS.secondary,
-            marginBottom: 0,
-            marginTop: 0,
-            flex: 1,
-            marginRight: 8
-          }}
+          style={styles.buttonDeleteLanguage}
         >
-          <Text bold style={{ color: 'white' }}>
+          <Text bold style={styles.buttonDeleteTitle} fontSize={16}>
             Delete language
           </Text>
         </Button>
-        <Button
-          onPress={handleNewWord}
-          style={{
-            marginVertical: 0,
-            flex: 1,
-            marginLeft: 8
-          }}
-        >
-          <Text bold>Add new word</Text>
+        <Button onPress={handleNewWord} style={styles.buttonNewWord}>
+          <Text bold fontSize={16}>
+            Add new word
+          </Text>
         </Button>
       </Wrapper>
 
-      <Modal show={showModal} closeModal={setShowModal} title="Word">
+      <Modal show={showModal} closeModal={setShowModal} title='Word'>
         <WordCreate
           item={item}
           setItem={setItem}

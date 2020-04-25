@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+import styles from './styles';
 
 interface wType {
   children: any;
@@ -7,7 +8,7 @@ interface wType {
 }
 
 const Wrapper = ({ children, style }: wType) => (
-  <View style={[{ padding: 16 }, style]}>{children}</View>
+  <View style={[styles.container, style]}>{children}</View>
 );
 
 export default Wrapper;

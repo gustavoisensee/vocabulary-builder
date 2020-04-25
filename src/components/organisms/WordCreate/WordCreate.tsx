@@ -11,6 +11,7 @@ import { updateLanguages } from '../../../helpers/observers';
 import { alphabet } from '../../../consts/alphabet';
 import wType from '../../../types/word';
 import lType from '../../../types/language';
+import styles from './styles';
 
 interface wcType {
   item: any;
@@ -32,9 +33,7 @@ const WordCreate = ({ item, setItem, word, setWords, closeModal }: wcType) => {
         setTitleError(true);
         return;
       }
-      const validWord = alphabet.some(
-        (a) => a === title.charAt(0).toUpperCase()
-      );
+      const validWord = alphabet.some(a => a === title.charAt(0).toUpperCase());
       if (!validWord) {
         Alert.alert('The word should start with an alphabetic letter.');
         return;
@@ -42,12 +41,12 @@ const WordCreate = ({ item, setItem, word, setWords, closeModal }: wcType) => {
 
       const list: Array<lType> = await retrieveData('languages');
 
-      const valid = list.some((listItem) => {
+      const valid = list.some(listItem => {
         if (listItem.id === item.id) {
           if (
             listItem.words &&
             listItem.words.some(
-              (w) =>
+              w =>
                 w?.title?.toLowerCase() === title.toLowerCase() &&
                 word?.id !== w.id
             )
@@ -58,7 +57,7 @@ const WordCreate = ({ item, setItem, word, setWords, closeModal }: wcType) => {
 
           const filteredWords =
             word && word.id
-              ? listItem.words.filter((w) => w.id !== word.id)
+              ? listItem.words.filter(w => w.id !== word.id)
               : listItem.words;
           const words = [
             {
@@ -103,28 +102,30 @@ const WordCreate = ({ item, setItem, word, setWords, closeModal }: wcType) => {
         error={!title && titleError}
         value={title}
         onChange={onChangeTitle}
-        placeholder="Word"
+        placeholder='Word'
       />
 
       <Text bold>Translation</Text>
       <Input
         value={translation}
         onChange={onChangeTranslation}
-        placeholder="Translation"
+        placeholder='Translation'
       />
 
       <Text bold>Description</Text>
       <Input
         value={description}
         onChange={onChangeDescription}
-        placeholder="Description"
+        placeholder='Description'
         multiline
         numberOfLines={4}
-        style={{ height: 100 }}
+        style={styles.inputDescription}
       />
 
       <Button onPress={saveWord}>
-        <Text bold>Save</Text>
+        <Text bold fontSize={16}>
+          Save
+        </Text>
       </Button>
     </View>
   );

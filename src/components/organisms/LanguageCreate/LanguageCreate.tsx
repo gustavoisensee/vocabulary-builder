@@ -1,6 +1,6 @@
 // @ts-ignore
 import shortid from 'shortid';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, View } from 'react-native';
 import Input from '../../atoms/Input';
@@ -15,12 +15,13 @@ interface lcType {
   item: any;
 }
 
-const LanguageCreate = ({ closeModal, item }: lcType) => {
-  const { id, title: itemTitle, words } = item || {};
-  const [title, onChangeTitle] = useState(itemTitle);
+const LanguageCreate = ({ closeModal, item = {} }: lcType) => {
+  const [language, setLanguage] = useState(item);
   const [titleError, setTitleError] = useState(false);
+
   const saveLanguage = async () => {
     try {
+      const { id, title, words } = language;
       if (!title.replace(/ /g, '')) {
         setTitleError(true);
         return;
@@ -30,7 +31,7 @@ const LanguageCreate = ({ closeModal, item }: lcType) => {
       let valid: boolean;
 
       if (id) {
-        valid = list.some((listItem) => {
+        valid = list.some(listItem => {
           if (
             listItem.title.toLowerCase() === title.toLowerCase() &&
             listItem.id !== id
@@ -39,7 +40,7 @@ const LanguageCreate = ({ closeModal, item }: lcType) => {
             return false;
           }
 
-          const filteredLanguages = list.filter((w) => w.id !== id);
+          const filteredLanguages = list.filter(w => w.id !== id);
           const languages = [{ id, title, words }, ...filteredLanguages];
 
           newList = languages;
@@ -71,19 +72,28 @@ const LanguageCreate = ({ closeModal, item }: lcType) => {
     }
   };
 
+  const handleTitleChange = (value: string) => {
+    setLanguage({ ...language, title: value });
+  };
+
+  useEffect(() => {
+    if (item) setLanguage(item);
+  }, [item]);
+
   return (
     <View>
       <Text bold>Title</Text>
       <Input
-        error={!title && titleError}
-        // TOOD check if item existe and grab item.title
-        value={title}
-        onChange={onChangeTitle}
-        placeholder="Language"
+        error={!language.title && titleError}
+        value={language.title}
+        onChange={handleTitleChange}
+        placeholder='Language'
       />
 
       <Button onPress={saveLanguage}>
-        <Text bold>Save</Text>
+        <Text bold fontSize={16}>
+          Save
+        </Text>
       </Button>
     </View>
   );

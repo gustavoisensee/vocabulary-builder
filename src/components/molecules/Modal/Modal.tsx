@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
   StatusBar
 } from 'react-native';
+import styles from './styles';
 
 interface cmType {
   children: any;
@@ -23,38 +24,21 @@ const CustomModal = ({ children, show, closeModal, title }: cmType) => {
 
   return (
     <Modal
-      presentationStyle="pageSheet"
-      animationType="slide"
+      presentationStyle='pageSheet'
+      animationType='slide'
       transparent={false}
       visible={show}
       onRequestClose={() => {
         Alert.alert('Modal has been closed.');
       }}
     >
-      <View
-        style={{
-          backgroundColor: 'black',
-          justifyContent: 'space-between',
-          flexDirection: 'row',
-          padding: 16
-        }}
-      >
-        <Text style={{ color: 'white', fontSize: 16, fontWeight: '800' }}>
-          {title}
-        </Text>
+      <View style={styles.container}>
+        <Text style={styles.title}>{title}</Text>
         <TouchableHighlight onPress={() => closeModal(false)}>
-          <Text
-            style={{
-              color: 'white',
-              fontSize: 16,
-              fontWeight: '800'
-            }}
-          >
-            Close
-          </Text>
+          <Text style={styles.buttonCloseTitle}>Close</Text>
         </TouchableHighlight>
       </View>
-      <View style={{ margin: 16 }}>{children}</View>
+      <View style={styles.content}>{children}</View>
     </Modal>
   );
 };

@@ -6,9 +6,9 @@ import Menu from '../screens/Menu';
 const Stack = createStackNavigator();
 
 const MainStack = () => (
-  <Stack.Navigator initialRouteName="Menu">
+  <Stack.Navigator initialRouteName='Menu'>
     <Stack.Screen
-      name="Menu"
+      name='Menu'
       component={Menu}
       options={{
         title: 'Menu',

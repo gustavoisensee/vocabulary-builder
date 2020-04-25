@@ -27,7 +27,7 @@ const Main = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Languages"
+        name='Languages'
         component={Language}
         options={{
           ...options,
@@ -35,7 +35,7 @@ const Main = () => {
         }}
       />
       <Stack.Screen
-        name="LanguageDetails"
+        name='LanguageDetails'
         component={Word}
         options={({ navigation, route }) => ({
           ...options,

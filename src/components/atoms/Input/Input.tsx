@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextInput } from 'react-native';
-import { COLORS } from '../../../consts/colors';
+import styles from './styles';
 
 interface iType {
   error?: boolean;
@@ -13,27 +13,12 @@ interface iType {
 }
 
 const Input = ({ error, value, style, onChange, ...rest }: iType) => {
-  const errorStyle = error
-    ? {
-        borderBottomColor: 'red'
-      }
-    : {};
+  const errorStyle = error ? styles.inputError : {};
 
   return (
     <TextInput
-      style={{
-        borderRadius: 3,
-        backgroundColor: '#ECECEC',
-        borderBottomColor: 'gray',
-        borderBottomWidth: 1,
-        paddingVertical: 16,
-        paddingHorizontal: 8,
-        marginVertical: 16,
-        color: COLORS.black,
-        ...errorStyle,
-        ...style
-      }}
-      onChangeText={(text) => onChange(text)}
+      style={[styles.input, errorStyle, style]}
+      onChangeText={text => onChange(text)}
       value={value}
       {...rest}
     />
