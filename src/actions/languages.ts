@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import { retrieveData } from '../helpers/asyncStorage';
+import { captureException } from '../helpers/sentry';
 import lType from '../types/language';
 
 export const saveLanguages = async (languages: Array<lType>): Promise<any> => {
@@ -12,7 +13,7 @@ export const saveLanguages = async (languages: Array<lType>): Promise<any> => {
 
     return result;
   } catch (err) {
-    // TODO add sentry
+    captureException(err, 'Error when saving languages');
     return false;
   }
 };
@@ -27,7 +28,7 @@ export const getLanguages = async (): Promise<any> => {
 
     return data;
   } catch (err) {
-    // TODO add sentry
+    captureException(err, 'Error when getting languages');
     return [];
   }
 };

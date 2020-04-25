@@ -1,3 +1,5 @@
+import { COLORS } from '../consts/colors';
+
 interface hsType {
   backgroundColor: string;
 }
@@ -15,9 +17,9 @@ interface oType {
 
 export const options: oType = {
   headerStyle: {
-    backgroundColor: '#111'
+    backgroundColor: COLORS.fullBlack
   },
-  headerTintColor: '#fff',
+  headerTintColor: COLORS.white,
   headerTitleStyle: {
     fontWeight: '800',
     fontSize: 22

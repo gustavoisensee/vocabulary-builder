@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import { animationSpring } from '../../../consts/animation';
 import Text from '../../atoms/Text';
+import styles from './styles';
 
 const DEFAULT_HEIGHT = 50;
 
@@ -19,22 +20,8 @@ const WordItem = (props: any) => {
 
   return (
     <TouchableWithoutFeedback onPress={handleSetHeight}>
-      <Animated.View
-        style={{
-          justifyContent: 'flex-start',
-          backgroundColor: 'white',
-          marginTop: 16,
-          paddingVertical: 16,
-          paddingHorizontal: 16,
-          border: 1,
-          borderRadius: 3,
-          shadowColor: '#000',
-          shadowOffset: { width: 2, height: 4 },
-          shadowOpacity: 0.3,
-          height
-        }}
-      >
-        <Text paddingBottom={false} style={{ marginBottom: 8 }}>
+      <Animated.View style={[styles.container, { height }]}>
+        <Text paddingBottom={false} style={styles.title}>
           {`${props.title}${
             props.translation ? ` / ${props.translation}` : ''
           }`}

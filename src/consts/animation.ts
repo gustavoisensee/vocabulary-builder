@@ -18,3 +18,10 @@ export const animationSpring: asType = {
   update: { type: 'spring', springDamping: 0.5 },
   delete: { type: 'linear', property: 'opacity', duration: 200 }
 };
+
+export const animationLinear: asType = {
+  duration: 300,
+  create: { type: 'linear', property: 'opacity', duration: 200 },
+  update: { type: 'linear' },
+  delete: { type: 'linear', property: 'opacity', duration: 600 }
+};

@@ -4,19 +4,17 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import generalStack from './src/stacks/general';
 import menuStack from './src/stacks/menu';
 import { COLORS } from './src/consts/colors';
-import { init as initFirebase } from './src/helpers/firebase';
 import HomeIcon from './src/components/atoms/Icon/Home';
 import MenuIcon from './src/components/atoms/Icon/Menu';
+import { init as initFirebase } from './src/helpers/firebase';
+import { init as initSentry } from './src/helpers/sentry';
 
 const Tab = createBottomTabNavigator();
 
 const App = () => {
-  const initilize = async () => {
-    await initFirebase();
-  };
-
   useEffect(() => {
-    initilize();
+    initSentry();
+    initFirebase();
   }, []);
 
   return (
@@ -28,12 +26,12 @@ const App = () => {
         }}
       >
         <Tab.Screen
-          name="Main"
+          name='Main'
           component={generalStack}
           options={{ tabBarIcon: HomeIcon }}
         />
         <Tab.Screen
-          name="Menu"
+          name='Menu'
           component={menuStack}
           options={{ tabBarIcon: MenuIcon }}
         />
@@ -41,5 +39,4 @@ const App = () => {
     </NavigationContainer>
   );
 };
-
 export default App;

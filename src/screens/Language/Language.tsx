@@ -15,6 +15,7 @@ import {
 import Empty from '../../components/atoms/Empty/Empty';
 import { saveLanguages } from '../../actions/languages';
 import lType from '../../types/language';
+import styles from './styles';
 
 const Language = () => {
   const [search, setSearch] = useState<string>('');
@@ -42,7 +43,7 @@ const Language = () => {
     const reg = RegExp(value.toLowerCase());
     const filteredList =
       value && storedLanguages
-        ? storedLanguages.filter((l) => reg.test(l.title.toLowerCase()))
+        ? storedLanguages.filter((l: lType) => reg.test(l.title.toLowerCase()))
         : storedLanguages;
 
     setSearch(value);
@@ -60,18 +61,15 @@ const Language = () => {
       fetchLanguage();
     });
 
-    // TODO remove this for Production version
-    // removeData('languages');
-
     return () => {
       if (subs) subs.unsubscribe();
     };
   }, []);
 
   useEffect(() => {
-    const subs = languageModalSubject.subscribe((item: any) => {
+    const subs = languageModalSubject.subscribe((i: any) => {
       setShowModal(true);
-      setItem(item);
+      setItem(i);
     });
 
     return () => {
@@ -80,33 +78,32 @@ const Language = () => {
   }, []);
 
   return (
-    <View style={{ padding: 16, flex: 1 }}>
-      <StatusBar barStyle="light-content" />
+    <View style={styles.container}>
+      <StatusBar barStyle='light-content' />
       <Input
         value={search}
         onChange={handleSearch}
-        placeholder="Search"
-        style={{ marginBottom: 0, marginTop: 0 }}
+        placeholder='Search'
+        style={styles.searchInput}
       />
 
       {languages.length ? (
-        <ScrollView
-          alwaysBounceHorizontal={false}
-          style={{ marginRight: -8, paddingRight: 8 }}
-        >
+        <ScrollView alwaysBounceHorizontal={false} style={styles.scrollView}>
           {languages.map((l, i) => (
             <LanguageItem key={i} {...l} />
           ))}
         </ScrollView>
       ) : (
-        <Empty title="You have no languages added so far." />
+        <Empty title='You have no languages added so far.' />
       )}
 
-      <Button onPress={handleOpenModal} style={{ marginBottom: 0 }}>
-        <Text bold>Add language</Text>
+      <Button onPress={handleOpenModal} style={styles.buttonAddLanguage}>
+        <Text bold fontSize={16}>
+          Add language
+        </Text>
       </Button>
 
-      <Modal show={showModal} closeModal={setShowModal} title="Language">
+      <Modal show={showModal} closeModal={setShowModal} title='Language'>
         <LanguageCreate closeModal={setShowModal} item={item} />
       </Modal>
     </View>

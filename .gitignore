@@ -63,3 +63,5 @@ buck-out/
 
 # Custom
 config/*
+ios/sentry.properties
+android/sentry.properties

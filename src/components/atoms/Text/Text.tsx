@@ -1,10 +1,11 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { COLORS } from '../../../consts/colors';
+import styles from './styles';
 
 interface ctType {
   bold?: boolean;
   children: any;
+  fontSize?: number;
   paddingBottom?: boolean;
   style?: any;
   numberOfLines?: number;
@@ -13,23 +14,17 @@ interface ctType {
 const CustomText = ({
   bold,
   children,
+  fontSize = 14,
   paddingBottom,
   style,
   ...rest
 }: ctType) => {
-  const isBold = bold ? { fontWeight: '700' } : {};
-  const hasPadding = paddingBottom ? { paddingBottom: 16 } : {};
+  const isBold = bold ? styles.bold : {};
+  const hasPadding = paddingBottom ? styles.hasPadding : {};
+
   return (
     <Text
-      style={[
-        {
-          minHeight: 16,
-          color: COLORS.black
-        },
-        isBold,
-        hasPadding,
-        style
-      ]}
+      style={[styles.text, { fontSize }, isBold, hasPadding, style]}
       {...rest}
     >
       {children}

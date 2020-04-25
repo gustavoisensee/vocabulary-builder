@@ -9,7 +9,9 @@ import { login, logout } from '../../actions/account';
 import { animationSpring } from '../../consts/animation';
 import { COLORS } from '../../consts/colors';
 import { updateLanguages } from '../../helpers/observers';
+import { captureException, DEFAULT_ERROR_MESSAGE } from '../../helpers/sentry';
 import { getLanguages } from '../../actions/languages';
+import styles from './styles';
 
 interface uType {
   givenName: string;
@@ -36,10 +38,11 @@ const Menu = () => {
         setUser(account.user);
         updateLanguages();
       } else {
-        Alert.alert('Something went wrong, please try again!');
+        Alert.alert(DEFAULT_ERROR_MESSAGE);
       }
     } catch (err) {
-      console.warn('Login error:', err);
+      captureException(err, 'Error on Menu/handleSignIn');
+      Alert.alert(DEFAULT_ERROR_MESSAGE);
     }
   };
 
@@ -53,7 +56,8 @@ const Menu = () => {
         setUser(undefined);
       }
     } catch (err) {
-      console.warn('Logout error:', err);
+      captureException(err, 'Error on Menu/handleSignOut');
+      Alert.alert(DEFAULT_ERROR_MESSAGE);
     }
   };
 
@@ -61,7 +65,6 @@ const Menu = () => {
     const account = await retrieveData('account');
 
     if (account && account.user) {
-      console.warn(account);
       setUser(account.user);
     }
   };
@@ -72,10 +75,10 @@ const Menu = () => {
 
   const LoginText = () => (
     <Wrapper>
-      <Text style={{ fontSize: 24, paddingBottom: 16 }} bold>
+      <Text style={styles.loginTitle} bold>
         Welcome!
       </Text>
-      <Text style={{ fontSize: 18, lineHeight: 26 }}>
+      <Text style={styles.loginDescription}>
         When logged in, your languages will be saved in the cloud automatically,
         keeping your data saved in case you change the device.
       </Text>
@@ -84,48 +87,43 @@ const Menu = () => {
 
   const LoggedInText = () => (
     <Wrapper>
-      <View style={{ paddingBottom: 16 }}>
-        <Text style={{ fontSize: 24 }} bold>
+      <View style={styles.loggedTitleContainer}>
+        <Text style={styles.loggedTitle} bold>
           Welcome!
         </Text>
-        <Text style={{ fontSize: 22, fontStyle: 'italic' }}>
-          {`${user?.givenName} ${user?.familyName}`}}
+        <Text style={styles.loggedUserName}>
+          {`${user?.givenName} ${user?.familyName}`}
         </Text>
       </View>
-      <Text style={{ fontSize: 18, paddingBottom: 0, lineHeight: 26 }}>
+      <Text style={styles.loggedDescription}>
         As you are logged in with your google account, your languages are being
         saved in google realtime database.
       </Text>
     </Wrapper>
   );
 
+  const SignInButton = () => (
+    <Button onPress={handleSignIn}>
+      <GoogleIcon size={22} color={COLORS.black} />
+      <Text bold style={styles.buttonSignInTitle} fontSize={16}>
+        Sign In with Google
+      </Text>
+    </Button>
+  );
+
+  const SignOutButton = () => (
+    <Button onPress={handleSignOut} style={styles.buttonSignOut}>
+      <Text bold style={styles.buttonSignOutTitle} fontSize={16}>
+        Sign Out
+      </Text>
+    </Button>
+  );
+
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start'
-      }}
-    >
+    <View style={styles.container}>
       {user ? <LoggedInText /> : <LoginText />}
-      <Wrapper style={{ flex: 1, width: '100%' }}>
-        {user ? (
-          <Button
-            onPress={handleSignOut}
-            style={{ backgroundColor: COLORS.secondary }}
-          >
-            <Text bold style={{ color: 'white' }}>
-              Sign Out
-            </Text>
-          </Button>
-        ) : (
-          <Button onPress={handleSignIn}>
-            <GoogleIcon size={22} color={COLORS.black} />
-            <Text bold style={{ paddingLeft: 8 }}>
-              Sign In with Google
-            </Text>
-          </Button>
-        )}
+      <Wrapper style={styles.wrapper}>
+        {user ? <SignOutButton /> : <SignInButton />}
       </Wrapper>
     </View>
   );

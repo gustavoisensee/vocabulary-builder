@@ -1,5 +1,6 @@
 import * as Google from 'expo-google-app-auth';
 import { retrieveData } from '../helpers/asyncStorage';
+import { captureException } from '../helpers/sentry';
 import googleConfig from '../../config/google.json';
 
 export const login = async (): Promise<any> =>
@@ -16,7 +17,7 @@ export const logout = async (): Promise<boolean> => {
 
     return true;
   } catch (err) {
-    console.warn(err);
+    captureException(err, 'Error on accounts/logout');
     return false;
   }
 };

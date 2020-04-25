@@ -8,9 +8,14 @@ import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
 import { storeData, retrieveData } from '../../../helpers/asyncStorage';
 import { updateLanguages } from '../../../helpers/observers';
+import {
+  captureException,
+  DEFAULT_ERROR_MESSAGE
+} from '../../../helpers/sentry';
 import { alphabet } from '../../../consts/alphabet';
 import wType from '../../../types/word';
 import lType from '../../../types/language';
+import styles from './styles';
 
 interface wcType {
   item: any;
@@ -91,8 +96,8 @@ const WordCreate = ({ item, setItem, word, setWords, closeModal }: wcType) => {
         closeModal(false);
       }
     } catch (err) {
-      console.warn(err);
-      Alert.alert('Error');
+      captureException(err, 'Error on WordCreate/saveWord');
+      Alert.alert(DEFAULT_ERROR_MESSAGE);
     }
   };
 
@@ -103,28 +108,30 @@ const WordCreate = ({ item, setItem, word, setWords, closeModal }: wcType) => {
         error={!title && titleError}
         value={title}
         onChange={onChangeTitle}
-        placeholder="Word"
+        placeholder='Word'
       />
 
       <Text bold>Translation</Text>
       <Input
         value={translation}
         onChange={onChangeTranslation}
-        placeholder="Translation"
+        placeholder='Translation'
       />
 
       <Text bold>Description</Text>
       <Input
         value={description}
         onChange={onChangeDescription}
-        placeholder="Description"
+        placeholder='Description'
         multiline
         numberOfLines={4}
-        style={{ height: 100 }}
+        style={styles.inputDescription}
       />
 
       <Button onPress={saveWord}>
-        <Text bold>Save</Text>
+        <Text bold fontSize={16}>
+          Save
+        </Text>
       </Button>
     </View>
   );
