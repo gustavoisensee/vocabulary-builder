@@ -43,7 +43,7 @@ const Language = () => {
     const reg = RegExp(value.toLowerCase());
     const filteredList =
       value && storedLanguages
-        ? storedLanguages.filter(l => reg.test(l.title.toLowerCase()))
+        ? storedLanguages.filter((l: lType) => reg.test(l.title.toLowerCase()))
         : storedLanguages;
 
     setSearch(value);
@@ -60,9 +60,6 @@ const Language = () => {
     const subs = languagesSubject.subscribe(() => {
       fetchLanguage();
     });
-
-    // TODO remove this for Production version
-    // removeData('languages');
 
     return () => {
       if (subs) subs.unsubscribe();

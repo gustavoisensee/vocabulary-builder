@@ -1,17 +1,12 @@
 import firebase from 'firebase';
-import * as Sentry from '@sentry/react-native';
+import { captureException } from './sentry';
 import googleConfig from '../../config/google.json';
 
 export const init = async (): Promise<any> => {
   try {
     return firebase.initializeApp(googleConfig.firebase);
   } catch (err) {
-    Sentry.addBreadcrumb({
-      category: 'firebase',
-      message: 'Error when initilize firebase',
-      level: Sentry.Severity.Info
-    });
-    Sentry.captureException(err);
+    captureException(err, 'Error when initilize firebase');
 
     return Promise.resolve(null);
   }

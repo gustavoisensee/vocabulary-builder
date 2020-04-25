@@ -9,6 +9,7 @@ import { login, logout } from '../../actions/account';
 import { animationSpring } from '../../consts/animation';
 import { COLORS } from '../../consts/colors';
 import { updateLanguages } from '../../helpers/observers';
+import { captureException, DEFAULT_ERROR_MESSAGE } from '../../helpers/sentry';
 import { getLanguages } from '../../actions/languages';
 import styles from './styles';
 
@@ -37,10 +38,11 @@ const Menu = () => {
         setUser(account.user);
         updateLanguages();
       } else {
-        Alert.alert('Something went wrong, please try again!');
+        Alert.alert(DEFAULT_ERROR_MESSAGE);
       }
     } catch (err) {
-      console.warn('Login error:', err);
+      captureException(err, 'Error on Menu/handleSignIn');
+      Alert.alert(DEFAULT_ERROR_MESSAGE);
     }
   };
 
@@ -54,7 +56,8 @@ const Menu = () => {
         setUser(undefined);
       }
     } catch (err) {
-      console.warn('Logout error:', err);
+      captureException(err, 'Error on Menu/handleSignOut');
+      Alert.alert(DEFAULT_ERROR_MESSAGE);
     }
   };
 

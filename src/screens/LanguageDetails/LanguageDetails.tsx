@@ -22,6 +22,7 @@ import DeleteIcon from '../../components/atoms/Icon/Delete';
 import EditIcon from '../../components/atoms/Icon/Edit';
 import { animationSpring } from '../../consts/animation';
 import { alphabet } from '../../consts/alphabet';
+import { captureException, DEFAULT_ERROR_MESSAGE } from '../../helpers/sentry';
 import wType from '../../types/word';
 import lType from '../../types/language';
 import styles from './styles';
@@ -44,7 +45,7 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
   const [words, setWords] = useState(item.words || []);
 
   const getSections = () => {
-    const sections: Array<sType> = alphabet.map(a => ({
+    const sections: Array<sType> = alphabet.map((a) => ({
       title: a,
       data: []
     }));
@@ -54,20 +55,21 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
       );
       sections[i].data.push(w);
     });
-    return sections.filter(s => !!s.data.length);
+    return sections.filter((s) => !!s.data.length);
   };
 
   const handleRemove = async () => {
     try {
       const list: Array<lType> = await retrieveData('languages');
-      const filteredList = list.filter(l => l.id !== item.id);
+      const filteredList = list.filter((l) => l.id !== item.id);
 
       await storeData('languages', filteredList);
 
       updateLanguages();
       navigation.goBack();
     } catch (err) {
-      console.warn(err);
+      captureException(err, 'Error on LanguageDetails/handleRemove');
+      Alert.alert(DEFAULT_ERROR_MESSAGE);
     }
   };
 
@@ -88,9 +90,9 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
     try {
       const list: Array<lType> = await retrieveData('languages');
 
-      list.some(c => {
+      list.some((c) => {
         if (c.id === item.id) {
-          const filteredWords = c.words.filter(w => w.id !== row.id);
+          const filteredWords = c.words.filter((w) => w.id !== row.id);
 
           c.words = filteredWords;
           setWords(filteredWords);
@@ -101,8 +103,8 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
       await storeData('languages', list);
       updateLanguages();
     } catch (err) {
-      console.warn(err);
-      Alert.alert('Error');
+      captureException(err, 'Error on LanguageDetails/handleDeleteWord');
+      Alert.alert(DEFAULT_ERROR_MESSAGE);
     }
   };
 
@@ -110,7 +112,7 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
     const reg = RegExp(value.toLowerCase());
     const list = [...item.words];
     const filteredList = value
-      ? list.filter(l => reg.test(l.title.toLowerCase()))
+      ? list.filter((l) => reg.test(l.title.toLowerCase()))
       : list;
 
     setSearch(value);
@@ -143,7 +145,7 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
     const subs = languagesSubject.subscribe(async () => {
       const list: Array<lType> = await retrieveData('languages');
       if (list && item) {
-        const itemRefreshed = list.find(l => l.id === item.id);
+        const itemRefreshed = list.find((l) => l.id === item.id);
         if (itemRefreshed) setItem(itemRefreshed);
       }
     });
@@ -191,7 +193,7 @@ const LanguageDetails = ({ navigation, route }: ldType) => {
                   <SwipeListView
                     data={[wordItem]}
                     keyExtractor={({}, index) => `word-section-row-${index}`}
-                    renderItem={data => <WordItem {...data.item} />}
+                    renderItem={(data) => <WordItem {...data.item} />}
                     renderHiddenItem={renderHiddenItem}
                     style={styles.swipeContainer}
                     leftOpenValue={100}

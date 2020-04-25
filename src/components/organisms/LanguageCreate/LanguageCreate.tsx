@@ -8,6 +8,10 @@ import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
 import { storeData, retrieveData } from '../../../helpers/asyncStorage';
 import { updateLanguages } from '../../../helpers/observers';
+import {
+  captureException,
+  DEFAULT_ERROR_MESSAGE
+} from '../../../helpers/sentry';
 import lType from '../../../types/language';
 
 interface lcType {
@@ -31,7 +35,7 @@ const LanguageCreate = ({ closeModal, item = {} }: lcType) => {
       let valid: boolean;
 
       if (id) {
-        valid = list.some(listItem => {
+        valid = list.some((listItem: lType) => {
           if (
             listItem.title.toLowerCase() === title.toLowerCase() &&
             listItem.id !== id
@@ -40,7 +44,7 @@ const LanguageCreate = ({ closeModal, item = {} }: lcType) => {
             return false;
           }
 
-          const filteredLanguages = list.filter(w => w.id !== id);
+          const filteredLanguages = list.filter((w: lType) => w.id !== id);
           const languages = [{ id, title, words }, ...filteredLanguages];
 
           newList = languages;
@@ -67,8 +71,8 @@ const LanguageCreate = ({ closeModal, item = {} }: lcType) => {
         closeModal(false);
       }
     } catch (err) {
-      console.warn(err);
-      Alert.alert('Error');
+      captureException(err, 'Error on LanguageCreate/saveLanguage');
+      Alert.alert(DEFAULT_ERROR_MESSAGE);
     }
   };
 

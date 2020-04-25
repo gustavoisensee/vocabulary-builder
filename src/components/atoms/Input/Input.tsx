@@ -18,7 +18,7 @@ const Input = ({ error, value, style, onChange, ...rest }: iType) => {
   return (
     <TextInput
       style={[styles.input, errorStyle, style]}
-      onChangeText={text => onChange(text)}
+      onChangeText={(text) => onChange(text)}
       value={value}
       {...rest}
     />

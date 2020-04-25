@@ -1,13 +1,13 @@
 import { AsyncStorage } from 'react-native';
+import { captureException } from './sentry';
 
 const PREFIX = '@vocabulary-builder';
 
 export const storeData = async (key: string, value: any): Promise<any> => {
   try {
     await AsyncStorage.setItem(`${PREFIX}:${key}`, JSON.stringify(value));
-  } catch (e) {
-    // saving error
-    // TODO add sentry
+  } catch (err) {
+    captureException(err, 'Error on asyncStorage/storeData');
     return Promise.resolve(null);
   }
 };
@@ -18,8 +18,8 @@ export const retrieveData = async (key: string): Promise<any> => {
 
     if (value) return JSON.parse(value);
     return null;
-  } catch (e) {
-    // error reading value
+  } catch (err) {
+    captureException(err, 'Error on asyncStorage/retrieveData');
     return undefined;
   }
 };
@@ -29,8 +29,8 @@ export const removeData = async (key: string): Promise<any> => {
     await AsyncStorage.removeItem(`${PREFIX}:${key}`);
 
     return null;
-  } catch (e) {
-    // error removing value
+  } catch (err) {
+    captureException(err, 'Error on asyncStorage/removeData');
     return undefined;
   }
 };
