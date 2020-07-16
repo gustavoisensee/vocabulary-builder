@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { YellowBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import generalStack from './src/stacks/general';
@@ -8,6 +9,8 @@ import HomeIcon from './src/components/atoms/Icon/Home';
 import MenuIcon from './src/components/atoms/Icon/Menu';
 import { init as initFirebase } from './src/helpers/firebase';
 import { init as initSentry } from './src/helpers/sentry';
+
+YellowBox.ignoreWarnings(['ReactNative.NativeModules.LottieAnimationView']);
 
 const Tab = createBottomTabNavigator();
 
