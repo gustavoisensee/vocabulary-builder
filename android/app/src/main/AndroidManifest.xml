@@ -33,7 +33,7 @@
       android:allowBackup="false"
       android:theme="@style/AppTheme">
 
-      <meta-data android:name="expo.modules.updates.EXPO_UPDATE_URL" android:value="https://exp.host/@gustavoisensee/vocabularybuilder" />
+      <meta-data android:name="expo.modules.updates.EXPO_UPDATE_URL" android:value="https://exp.host/@gustavoisensee/vocabulary-builder" />
       <meta-data android:name="expo.modules.updates.EXPO_SDK_VERSION" android:value="38.0.0" />
 
       <meta-data android:name="expo.modules.updates.EXPO_RELEASE_CHANNEL" android:value="default" />

@@ -1,9 +1,10 @@
 {
-  "name": "vocabularybuilder",
-  "displayName": "vocabularybuilder",
+  "name": "Vocabulary Builder",
+  "displayName": "Vocabulary Builder",
   "expo": {
-    "name": "vocabularybuilder",
-    "slug": "vocabularybuilder",
+    "name": "Vocabulary Builder",
+    "slug": "vocabulary-builder",
+    "owner": "gustavoisensee",
     "version": "1.0.0",
     "platforms": [
       "ios",
@@ -12,6 +13,12 @@
     ],
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "icon": "assets/icon.png",
+    "splash": {
+      "image": "assets/splash.png"
+    },
+    "description": "Vocabulary builder helps you to create your dynamic and multiple vocabulary list, improving your vocabulary in many languages.",
+    "githubUrl": "https://github.com/gustavoisensee/vocabulary-builder"
   }
 }
