@@ -19,6 +19,13 @@
       "image": "assets/splash.png"
     },
     "description": "Vocabulary builder helps you to create your dynamic and multiple vocabulary list, improving your vocabulary in many languages.",
-    "githubUrl": "https://github.com/gustavoisensee/vocabulary-builder"
+    "githubUrl": "https://github.com/gustavoisensee/vocabulary-builder",
+    "android": {
+      "package": "com.vocabulary.builder"
+    },
+    "ios": {
+      "bundleIdentifier": "com.vocabulary.builder"
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
   }
 }
