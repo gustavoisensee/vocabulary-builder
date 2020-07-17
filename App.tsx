@@ -8,7 +8,7 @@ import { COLORS } from './src/consts/colors';
 import HomeIcon from './src/components/atoms/Icon/Home';
 import MenuIcon from './src/components/atoms/Icon/Menu';
 import { init as initFirebase } from './src/helpers/firebase';
-// import { init as initSentry } from './src/helpers/sentry';
+import { init as initSentry } from './src/helpers/sentry';
 
 YellowBox.ignoreWarnings(['ReactNative.NativeModules.LottieAnimationView']);
 
@@ -16,7 +16,7 @@ const Tab = createBottomTabNavigator();
 
 const App = () => {
   useEffect(() => {
-    // initSentry();
+    initSentry();
     initFirebase();
   }, []);
 
