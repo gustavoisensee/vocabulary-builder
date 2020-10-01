@@ -5,7 +5,7 @@ import styles from './styles';
 interface cmType {
   children: any;
   show: boolean;
-  closeModal(a?: any): void;
+  closeModal(a?: boolean): void;
   title: string;
 }
 

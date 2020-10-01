@@ -3,7 +3,7 @@ import { retrieveData } from '../helpers/asyncStorage';
 import { captureException } from '../helpers/sentry';
 import googleConfig from '../../config/google.json';
 
-export const login = async (): Promise<any> =>
+export const login = async (): Promise<Google.LogInResult> =>
   Google.logInAsync(googleConfig.signIn);
 
 export const logout = async (): Promise<boolean> => {

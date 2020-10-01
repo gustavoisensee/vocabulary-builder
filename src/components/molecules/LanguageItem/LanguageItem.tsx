@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Text from '../../atoms/Text';
 import styles from './styles';
 
-const LanguageItem = (props: any) => {
+interface Props {
+  title: string;
+  words: Array<string>;
+}
+
+const LanguageItem: FC<Props> = (props) => {
   const navigation = useNavigation();
 
   const handleRedirect = () => {
